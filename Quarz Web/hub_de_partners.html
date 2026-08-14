@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUARZ — Hub de Partners</title>
+    <!-- Fonts & GSAP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=Sora:wght@300&family=Space+Grotesk:wght@700&family=Space+Mono:ital,wght@1,700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --bg-white: #ffffff;
+            --text-black: #111111;
+            --glow-violet: #7C3AED;
+            --accent-gold: #c2be9f;
+            --font-title: 'Space Mono', monospace;
+            --font-subtitle: 'Sora', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-accent: 'Space Grotesk', sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--bg-white);
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            color: var(--text-black);
+        }
+
+        /* Header con logo dorado nítido y flecha '<' a la izquierda */
+        .sub-header-left {
+            position: fixed;
+            top: 3.5vh;
+            left: 6vw;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: auto !important;
+        }
+
+        .brand-logo-gold {
+            height: clamp(28px, 3.5vh, 45px);
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-arrow {
+            font-family: var(--font-accent);
+            font-size: clamp(1.4rem, 2vw, 2.2rem);
+            font-weight: 700;
+            color: var(--gold-circuit);
+            line-height: 1;
+        }
+
+        /* Título en la esquina inferior derecha */
+        .subpage-title-lr {
+            position: fixed;
+            bottom: 6vh;
+            right: 8vw;
+            font-family: var(--font-accent);
+            font-weight: 700;
+            font-size: clamp(0.75rem, 1.1vw, 1.05rem);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--text-black);
+            text-decoration: none;
+            z-index: 30;
+        }
+
+        /* Top Blur Overlay */
+        .top-blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 5vh;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 100%);
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        /* SVG Circuit Overlay */
+        #circuit-svg-sub {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* Estilos de Contenido Réplica Oportunidad */
+        #opportunity {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15vh 5% 50px;
+            text-align: center;
+        }
+
+        #opportunity h2 {
+            font-family: var(--font-title);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        #opportunity .subtitle {
+            font-family: var(--font-subtitle);
+            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+            line-height: 1.6;
+            text-transform: uppercase;
+        }
+
+        .radar-container {
+            position: relative;
+            width: 650px;
+            max-width: 88vw;
+            aspect-ratio: 1 / 1;
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .radar-icon {
+            width: 110px;
+            height: 110px;
+            z-index: 10;
+        }
+
+        .radar-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #e2ded0;
+            border-radius: 50%;
+            aspect-ratio: 1 / 1;
+        }
+
+        .radar-circle.c1 {
+            width: 100%;
+        }
+
+        .radar-circle.c2 {
+            width: 70%;
+        }
+
+        .radar-circle.c3 {
+            width: 40%;
+        }
+
+        .opportunity-point {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 140px;
+            z-index: 15;
+        }
+
+        .opportunity-point .dot {
+            width: 16px;
+            height: 16px;
+            background-color: var(--glow-violet);
+            border-radius: 50%;
+            margin-bottom: 8px;
+            border: 2px solid var(--bg-white);
+            box-shadow: 0 0 10px var(--glow-violet);
+        }
+
+        .opportunity-point h3 {
+            font-family: var(--font-accent);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .scroll-down-arrow {
+            position: absolute;
+            bottom: 5vh;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 18px;
+            height: 18px;
+            border-right: 2px solid var(--text-black);
+            border-bottom: 2px solid var(--text-black);
+        }
+
+        #work-mechanics {
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        #work-mechanics h2 {
+            font-family: var(--font-title);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .mechanics-intro {
+            font-family: var(--font-subtitle);
+            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+            line-height: 1.7;
+        }
+
+        .mechanics-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .mechanics-column {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            padding: 2.2rem;
+            border: 1px solid #eee;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            background-color: #faf9f5;
+            border-radius: 12px;
+        }
+
+        .mechanics-column h3 {
+            font-family: var(--font-accent);
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .mechanics-column ul {
+            list-style: none;
+            flex-grow: 1;
+            padding: 0;
+        }
+
+        .mechanics-column li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cta-button {
+            font-family: var(--font-accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            padding: 0.9rem 2.2rem;
+            background-color: #f0ede4;
+            color: var(--text-black);
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            border-radius: 6px;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-gold);
+            color: #ffffff;
+        }
+
+        #growth-protocol {
+            padding: 100px 5%;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #growth-protocol h2 {
+            text-align: center;
+            font-family: var(--font-title);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+        }
+
+        .timeline-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #eee;
+            transform: translateX(-50%);
+        }
+
+        .timeline-entry {
+            position: relative;
+            width: 50%;
+            margin-bottom: 50px;
+            padding: 10px 40px;
+        }
+
+        .timeline-entry:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-entry:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-entry::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--bg-white);
+            border: 3px solid var(--accent-gold);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-entry:nth-child(odd):after {
+            right: -8px;
+        }
+
+        .timeline-entry:nth-child(even):after {
+            left: -8px;
+        }
+
+        .timeline-content h3 {
+            font-family: var(--font-accent);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-black);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .timeline-content p {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .protocol-metrics {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .protocol-metrics li {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-bottom: 5px;
+        }
+
+        .protocol-metrics span {
+            font-weight: 400;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stage-subpage">
+
+        <!-- Overlay de Difuminado Superior -->
+        <div class="top-blur-overlay"></div>
+
+        <!-- Header Logo Dorado con Flecha a la Izquierda (< QUARZ) como en Metodología -->
+        <header class="sub-header-left">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+                <span class="logo-arrow">&lt;</span>
+                <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold">
+            </a>
+        </header>
+
+        <!-- Título Superior Izquierda Abajo -->
+        <a href="index.html" class="subpage-title-lr" id="sub-title">HUB DE PARTNERS</a>
+
+        <!-- Línea de Circuito SVG Conectando Abajo-Derecha por el Margen Exterior hasta el Header Izquierdo -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path" d="" />
+            <circle id="sub-node-start" class="circuit-node" r="3.5" style="opacity:1;" />
+            <circle id="sub-node-end" class="circuit-node" r="3.5" style="opacity:1;" />
+        </svg>
+
+        <main>
+            <!-- SECCIÓN 1: OPORTUNIDAD RADAR -->
+            <section id="opportunity">
+                <h2>¿PARA QUIÉNES ES ESTA OPORTUNIDAD?</h2>
+                <p class="subtitle">Para quienes NO se conforman con el presente y quieren ser parte de la próxima
+                    REVOLUCIÓN INDUSTRIAL.</p>
+                <div class="radar-container">
+                    <img src="media/gente.png" class="radar-icon" alt="Icono de Comunidad">
+                    <div class="radar-circle c1"></div>
+                    <div class="radar-circle c2"></div>
+                    <div class="radar-circle c3"></div>
+                    <div class="opportunity-point p1">
+                        <div class="dot"></div>
+                        <h3>Dueños de negocios</h3>
+                    </div>
+                    <div class="opportunity-point p2">
+                        <div class="dot"></div>
+                        <h3>Freelancers</h3>
+                    </div>
+                    <div class="opportunity-point p3">
+                        <div class="dot"></div>
+                        <h3>Practicantes</h3>
+                    </div>
+                    <div class="opportunity-point p4">
+                        <div class="dot"></div>
+                        <h3>Emprendedores</h3>
+                    </div>
+                    <div class="opportunity-point p5">
+                        <div class="dot"></div>
+                        <h3>Estudiantes</h3>
+                    </div>
+                    <div class="opportunity-point p6">
+                        <div class="dot"></div>
+                        <h3>Visitadores</h3>
+                    </div>
+                    <div class="opportunity-point p7">
+                        <div class="dot"></div>
+                        <h3>Vendedores</h3>
+                    </div>
+                    <div class="opportunity-point p8">
+                        <div class="dot"></div>
+                        <h3>Administradores</h3>
+                    </div>
+                    <div class="opportunity-point p9">
+                        <div class="dot"></div>
+                        <h3>Diseñadores</h3>
+                    </div>
+                    <div class="opportunity-point p10">
+                        <div class="dot"></div>
+                        <h3>Analistas</h3>
+                    </div>
+                </div>
+                <div class="scroll-down-arrow"></div>
+            </section>
+
+            <!-- SECCIÓN 2: MECÁNICA DE TRABAJO -->
+            <section id="work-mechanics">
+                <h2>Mecánica de Trabajo</h2>
+                <p class="mechanics-intro">
+                    Si decides unirte a nosotros, dominarás una habilidad clave: <br><strong>Generar
+                        Oportunidades</strong>. Nuestro modelo te permite desarrollar esta capacidad en dos frentes
+                    simultáneos, ambos igual de importantes y ambos diseñados para generar utilidad.
+                </p>
+                <div class="mechanics-container">
+                    <div class="mechanics-column">
+                        <h3>Frente 1: Contratos</h3>
+                        <ul>
+                            <li>Crear una lista de prospectos</li>
+                            <li>Generar demostraciones</li>
+                            <li>Hacer seguimiento</li>
+                            <li>Lograr el cierre</li>
+                        </ul>
+                        <button class="cta-button" id="contracts-popup-trigger">VER MÁS</button>
+                    </div>
+                    <div class="mechanics-column">
+                        <h3>Frente 2: Ecosistema</h3>
+                        <ul>
+                            <li>Crear una lista de candidatos</li>
+                            <li>Generar reuniones</li>
+                            <li>Asociarlos a tu ecosistema</li>
+                        </ul>
+                        <button class="cta-button" id="ecosystem-popup-trigger">VER MÁS</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: PLAN DE CARRERA -->
+            <section id="growth-protocol">
+                <h2>PLAN DE CARRERA</h2>
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-entry">
+                        <div class="timeline-content">
+                            <h3>Fase 1: Embajador</h3>
+                            <p>Tu carrera inicia. Tu misión es dominar el diagnóstico y la generación de oportunidades.
+                            </p>
+                            <ul class="protocol-metrics">
+                                <li>10% Utilidad <span>sobre Facturación Directa</span></li>
+                                <li>8% Utilidad <span>sobre Facturación de Ecosistema</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-entry">
+                        <div class="timeline-content">
+                            <h3>Hito 1: Estratega Junior</h3>
+                            <p>Al alcanzar $10,000 en Facturación Total, demuestras tu dominio y comienzas tu formación
+                                como estratega.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-entry">
+                        <div class="timeline-content">
+                            <h3>Hito 2: Arquitecto de Growth</h3>
+                            <p>Con $20,000 en Facturación Total, tu protocolo de utilidad se expande y adquieres tu
+                                propia distribución.</p>
+                            <ul class="protocol-metrics">
+                                <li>15% Utilidad <span>sobre Facturación Directa</span></li>
+                                <li>12% Utilidad <span>sobre Facturación de Ecosistema</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-entry">
+                        <div class="timeline-content">
+                            <h3>Hito 3: Growth Partner</h3>
+                            <p>Como líder de tu distribución, tu objetivo es la maestría. Tu utilidad escala con el
+                                valor que tu compañía genera.</p>
+                            <ul class="protocol-metrics">
+                                <li>+1% Utilidad <span>por cada $10k de facturación</span></li>
+                                <li>Hasta 20% / 18% <span>(Directa / Ecosistema)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        function drawSubpageCircuit() {
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+            const svg = document.getElementById("circuit-svg-sub");
+            svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+            const title = document.getElementById("sub-title");
+            const line = document.getElementById("sub-line");
+            const nStart = document.getElementById("sub-node-start");
+            const nEnd = document.getElementById("sub-node-end");
+
+            const rTitle = title.getBoundingClientRect();
+
+            const startX = rTitle.left + 200;
+            const startY = rTitle.top - 20;
+
+            const yChannel = H * 0.05;
+            const endX = W * 0.15;
+
+            const pts = [
+                [startX, startY],
+                [startX, yChannel],
+                [endX, yChannel]
+            ];
+
+            line.setAttribute("d", "M " + pts.map(p => p[0] + " " + p[1]).join(" L "));
+            line.style.strokeDasharray = "none";
+            line.style.strokeDashoffset = "0";
+
+            nStart.setAttribute("cx", startX);
+            nStart.setAttribute("cy", startY);
+
+            nEnd.setAttribute("cx", endX);
+            nEnd.setAttribute("cy", yChannel);
+        }
+
+        window.addEventListener("load", drawSubpageCircuit);
+        window.addEventListener("resize", drawSubpageCircuit);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- ANIMACIÓN RADAR CON PERFILES ---
+            const centerX = 50, centerY = 50;
+            const points = [
+                { selector: ".p1", radius: 50, startAngle: 45 },
+                { selector: ".p2", radius: 35, startAngle: 180 },
+                { selector: ".p3", radius: 50, startAngle: 270 },
+                { selector: ".p4", radius: 20, startAngle: 0 },
+                { selector: ".p5", radius: 50, startAngle: 0 },
+                { selector: ".p6", radius: 35, startAngle: 90 },
+                { selector: ".p7", radius: 50, startAngle: 135 },
+                { selector: ".p8", radius: 35, startAngle: 270 },
+                { selector: ".p9", radius: 50, startAngle: 225 },
+                { selector: ".p10", radius: 20, startAngle: 120 }
+            ];
+
+            function setInitialPositions() {
+                points.forEach(point => {
+                    const angleInRadians = point.startAngle * Math.PI / 180;
+                    const x = centerX + point.radius * Math.cos(angleInRadians);
+                    const y = centerY + point.radius * Math.sin(angleInRadians);
+                    gsap.set(point.selector, { top: y + '%', left: x + '%' });
+                });
+            }
+            setInitialPositions();
+
+            gsap.set([".radar-circle", ".opportunity-point", ".radar-icon"], { scale: 0, opacity: 0 });
+            const opportunityTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#opportunity",
+                    start: "top center",
+                    toggleActions: "play none none none"
+                }
+            });
+
+            opportunityTimeline
+                .to(".radar-circle", { scale: 1, opacity: 1, duration: 1.5, ease: "expo.out", stagger: 0.2 })
+                .to(".radar-icon", { scale: 1, opacity: 1, duration: 1, ease: "back.out(1.7)" }, "-=1.5")
+                .to(".opportunity-point", { scale: 1, opacity: 1, duration: 1, ease: "back.out(1.7)", stagger: 0.2 }, "-=1.2");
+
+            const orbitAnimation = gsap.to({ angle: 0 }, {
+                angle: 360,
+                duration: 60,
+                ease: "none",
+                repeat: -1,
+                paused: true,
+                onUpdate: function () {
+                    const currentAngle = this.targets()[0].angle;
+                    points.forEach(point => {
+                        const angleInRadians = (point.startAngle + currentAngle) * Math.PI / 180;
+                        const x = centerX + point.radius * Math.cos(angleInRadians);
+                        const y = centerY + point.radius * Math.sin(angleInRadians);
+                        gsap.set(point.selector, { top: y + '%', left: x + '%' });
+                    });
+                }
+            });
+            opportunityTimeline.call(() => orbitAnimation.play());
+
+            // --- ANIMACIÓN FLECHA DE SCROLL ---
+            gsap.to(".scroll-down-arrow", { y: 10, repeat: -1, yoyo: true, ease: "power1.inOut", duration: 0.8 });
+
+            // --- ANIMACIÓN MECÁNICA DE TRABAJO ---
+            const mechanicsSection = document.querySelector("#work-mechanics");
+            gsap.set(["#work-mechanics h2", ".mechanics-intro", ".mechanics-column"], { opacity: 0, y: 50 });
+            const mechanicsTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: mechanicsSection,
+                    start: "top 70%",
+                    toggleActions: "play none none none"
+                }
+            });
+            mechanicsTimeline
+                .to("#work-mechanics h2", { opacity: 1, y: 0, duration: 1, ease: "power2.out" })
+                .to(".mechanics-intro", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=0.7")
+                .to(".mechanics-column", { opacity: 1, y: 0, duration: 1, ease: "power2.out", stagger: 0.3 }, "-=0.7");
+
+            // --- ANIMACIÓN PLAN DE CARRERA ---
+            const protocolSection = document.querySelector("#growth-protocol");
+            const timelineEntries = gsap.utils.toArray(".timeline-entry");
+            gsap.set(timelineEntries, { opacity: 0, x: (i) => i % 2 === 0 ? -100 : 100 });
+            gsap.set(".timeline-line", { scaleY: 0, transformOrigin: "top center" });
+            const protocolTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: protocolSection,
+                    start: "top center",
+                    end: "bottom bottom",
+                    scrub: 1
+                }
+            });
+            protocolTimeline
+                .to(".timeline-line", { scaleY: 1, duration: 5 })
+                .to(timelineEntries, { opacity: 1, x: 0, duration: 3, stagger: 2 }, 0);
+        });
+    </script>
+
+</body>
+
+</html>

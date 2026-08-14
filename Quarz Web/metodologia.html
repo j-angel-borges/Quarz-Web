@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUARZ — Metodología de Trabajo</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .stage-subpage {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+        }
+
+        /* Header con logo dorado y flecha '<' a la izquierda */
+        .sub-header-left {
+            position: absolute;
+            top: 3.5vh;
+            left: 6vw;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 50;
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: auto !important;
+        }
+
+        .brand-logo-gold {
+            height: clamp(28px, 3.5vh, 45px);
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-arrow {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 2vw, 2.2rem);
+            font-weight: 700;
+            color: var(--gold-circuit);
+            line-height: 1;
+        }
+
+        /* Título en la esquina superior derecha */
+        .subpage-title-ur {
+            position: absolute;
+            top: 6vh;
+            right: 6vw;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: clamp(0.75rem, 1.1vw, 1.05rem);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--text-black);
+            text-decoration: none;
+            z-index: 30;
+        }
+
+        /* Cuarzo solo posicionado a la izquierda (-55vw) */
+        .subpage-quartz-left {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) translateX(-55vw) translateY(2vh) scale(0.62);
+            transform-origin: center bottom;
+            width: min(88vw, 108vh);
+            max-width: 68vw;
+            max-height: 88vh;
+            height: auto;
+            margin-bottom: -12vh;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            z-index: 10;
+        }
+
+        /* Línea SVG y Nodos */
+        #circuit-svg-sub {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stage-subpage">
+
+        <!-- Header Logo Dorado con Flecha a la Izquierda (< QUARZ) -->
+        <header class="sub-header-left">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+                <span class="logo-arrow">&lt;</span>
+                <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold">
+            </a>
+        </header>
+
+        <!-- Título Superior Derecha -->
+        <a href="index.html" class="subpage-title-ur" id="sub-title">METODOLOGÍA DE TRABAJO</a>
+
+        <!-- Cuarzo Solo a la Izquierda -->
+        <img id="sub-quartz-img" src="media/images/cuarzo_metodologia_de_trabajo.png" alt="Cuarzo Metodología"
+            class="subpage-quartz-left">
+
+        <!-- Línea de Circuito SVG Conectando el Título Derecha con la Punta del Cuarzo Izquierda -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path" d="" />
+            <circle id="sub-node-start" class="circuit-node" r="3.5" style="opacity:1;" />
+            <circle id="sub-node-end" class="circuit-node" r="3.5" style="opacity:1;" />
+        </svg>
+
+    </div>
+
+    <script>
+        function drawSubpageCircuit() {
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+            const svg = document.getElementById("circuit-svg-sub");
+            svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+            const title = document.getElementById("sub-title");
+            const quartz = document.getElementById("sub-quartz-img");
+            const line = document.getElementById("sub-line");
+            const nStart = document.getElementById("sub-node-start");
+            const nEnd = document.getElementById("sub-node-end");
+
+            const rTitle = title.getBoundingClientRect();
+            const rQ = quartz.getBoundingClientRect();
+
+            const startX = rTitle.left + 25;
+            const startY = rTitle.bottom + 10;
+
+            const tipX = rQ.left + rQ.width * 0.75;
+            const tipY = rQ.top + rQ.height * 0.07;
+
+            const yChannel = startY + 24;
+
+            const pts = [
+                [startX, startY],
+                [startX, yChannel],
+                [tipX, yChannel],
+                [tipX, tipY]
+            ];
+
+            line.setAttribute("d", "M " + pts.map(p => p[0] + " " + p[1]).join(" L "));
+            line.style.strokeDasharray = "none";
+            line.style.strokeDashoffset = "0";
+
+            nStart.setAttribute("cx", startX);
+            nStart.setAttribute("cy", startY);
+
+            nEnd.setAttribute("cx", tipX);
+            nEnd.setAttribute("cy", tipY);
+        }
+
+        window.addEventListener("load", drawSubpageCircuit);
+        window.addEventListener("resize", drawSubpageCircuit);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUARZ</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Space+Mono:ital,wght@1,700&display=swap" rel="stylesheet">
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Stage Wrapper -->
+    <div class="stage">
+
+        <!-- Header Logo -->
+        <header id="main-header">
+            <img src="media/logos/QUARZ_Logo_Principal_alpha.png" alt="QUARZ" class="brand-logo" id="logo-principal">
+            
+            <!-- Logo Dorado Derecha para Soluciones (QUARZ >) -->
+            <div class="gold-logo-wrapper gold-logo-right" id="logo-gold-wrapper-soluciones">
+                <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold">
+                <span class="logo-arrow">&gt;</span>
+            </div>
+
+            <!-- Logo Dorado Izquierda para Metodología (< QUARZ) -->
+            <div class="gold-logo-wrapper gold-logo-left" id="logo-gold-wrapper-metodologia">
+                <span class="logo-arrow">&lt;</span>
+                <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold">
+            </div>
+        </header>
+
+        <!-- Canvas Container -->
+        <div class="quartz-wrapper">
+            <canvas id="quartz-canvas" width="1024" height="1024"></canvas>
+            <!-- Relevo del canvas al seleccionar una sección. Su primer
+                 fotograma es idéntico al último del canvas (corona de 5), así
+                 que el cambio es invisible. Oculto hasta que se selecciona. -->
+            <video id="selection-video" muted playsinline preload="auto">
+                <source src="media/videos/seleccion/transicion_soluciones_para_empresas.webm" type="video/webm">
+                <source src="media/videos/seleccion/transicion_soluciones_para_empresas.mp4" type="video/mp4">
+            </video>
+            <img id="single-quartz-img" src="media/images/cuarzo_soluciones_para_empresas.png" alt="Cuarzo Soluciones">
+        </div>
+
+        <!-- SVG Golden Circuit Lines (nacimiento desde cuarzos + nodos) -->
+        <svg id="circuit-svg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <g id="group-ul">
+                <path id="line-ul" class="circuit-path" d="" />
+                <circle id="node-ul-start" class="circuit-node" r="3.5" />
+                <circle id="node-ul-end" class="circuit-node" r="3.5" />
+            </g>
+            <g id="group-ur">
+                <path id="line-ur" class="circuit-path" d="" />
+                <circle id="node-ur-start" class="circuit-node" r="3.5" />
+                <circle id="node-ur-end" class="circuit-node" r="3.5" />
+            </g>
+            <g id="group-ll">
+                <path id="line-ll" class="circuit-path" d="" />
+                <circle id="node-ll-start" class="circuit-node" r="3.5" />
+                <circle id="node-ll-end" class="circuit-node" r="3.5" />
+            </g>
+            <g id="group-lr">
+                <path id="line-lr" class="circuit-path" d="" />
+                <circle id="node-lr-start" class="circuit-node" r="3.5" />
+                <circle id="node-lr-end" class="circuit-node" r="3.5" />
+            </g>
+        </svg>
+
+        <!-- Motion Graphics de Apertura (Entrada a la página):
+             Flanquean el cuarzo desde la carga inicial (Second brain a la izquierda, manifesto en bucle a la derecha).
+             Se desvanecen al primer scroll. -->
+        <video id="mg-return-left" class="hero-motion" muted playsinline loop preload="auto">
+            <source src="media/videos/second_brain_loop.webm" type="video/webm">
+            <source src="media/videos/second_brain_loop.mp4" type="video/mp4">
+        </video>
+        <video id="mg-return-right" class="hero-motion" muted playsinline loop preload="auto">
+            <source src="media/videos/texto_manifesto_retorno_loop.webm" type="video/webm">
+            <source src="media/videos/texto_manifesto_retorno_loop.mp4" type="video/mp4">
+        </video>
+
+        <!-- Motion Graphics del "Regreso al inicio" (Tras hacer scroll y volver a la sección 1):
+             1) Izquierda: manifiesto en terminal (3 bullets).
+             2) Abajo-izquierda: second brain (red/ecosistema).
+             3) Derecha: cuarzo naciendo ("desliza hacia abajo"). -->
+        <video id="mg-left" class="hero-motion" muted playsinline preload="auto">
+            <source src="media/videos/texto_manifesto_terminal_3bullets.webm" type="video/webm">
+            <source src="media/videos/texto_manifesto_terminal_3bullets.mp4" type="video/mp4">
+        </video>
+        <video id="mg-second-brain" class="hero-motion" muted playsinline loop preload="auto">
+            <source src="media/videos/second_brain_loop.webm" type="video/webm">
+            <source src="media/videos/second_brain_loop.mp4" type="video/mp4">
+        </video>
+        <video id="mg-right" class="hero-motion" muted playsinline preload="auto">
+            <source src="media/videos/cuarzo_naciendo_motion.webm" type="video/webm">
+            <source src="media/videos/cuarzo_naciendo_motion.mp4" type="video/mp4">
+        </video>
+
+        <!-- Floating Typography Titles -->
+        <a href="soluciones.html" id="title-ul" class="title-label label-left">SOLUCIONES PARA EMPRESAS</a>
+        <a href="metodologia.html" id="title-ur" class="title-label label-right">METODOLOGÍA DE TRABAJO</a>
+        <a href="b2c.html" id="title-ll" class="title-label label-left">PRODUCTO B2C</a>
+        <a href="hub_de_partners.html" id="title-lr" class="title-label label-right">HUB DE PARTNERS</a>
+
+    </div>
+
+    <!-- Scroll Track (400vh for 4 smooth phases) -->
+    <div class="scroll-track"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

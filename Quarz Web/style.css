@@ -1,0 +1,369 @@
+:root {
+    --bg-white: #ffffff;
+    --text-black: #111111;
+    --gold-circuit: #c2be9f;
+    --gold-hover: #a8a380;
+    --lime-hover: #a6ff00;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    /* NO fijar height:100% aquí: recortaría el documento a la altura del
+       viewport y anularía el scroll generado por .scroll-track (400vh). */
+    min-height: 100%;
+    background-color: var(--bg-white);
+    color: var(--text-black);
+    font-family: var(--font-heading);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Stage & Scroll Track */
+.stage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-white);
+    z-index: 10;
+}
+
+.scroll-track {
+    height: 400vh;
+    width: 100%;
+}
+
+/* Header & Brand Logo */
+header#main-header {
+    position: absolute;
+    top: 3.5vh;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    opacity: 0;
+    transform: translateY(-80px);
+    pointer-events: none;
+}
+
+.brand-logo {
+    width: clamp(240px, 24vw, 400px);
+    /* logo recortado simétricamente y 100% centrado */
+    height: auto;
+    object-fit: contain;
+    pointer-events: auto;
+}
+
+/* 3D Quartz Canvas — grande y asentado en el "piso" de la sección.
+   align-items: flex-end + un pequeño offset inferior lo apoyan sobre el suelo
+   en lugar de dejarlo flotando centrado como una miniatura recortada. */
+.quartz-wrapper {
+    position: absolute;
+    inset: 0;
+    /* cubre todo el viewport */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* apoya el cuarzo en la base */
+    padding-bottom: 0;
+    /* sin colchón: el cuarzo baja hasta el piso */
+    z-index: 10;
+    pointer-events: none;
+    /* Baseline limpio para la entrada: solo translateY, sin -50% que GSAP
+       pudiera borrar al animar `y`. Al terminar la intro (y:0) queda apoyado. */
+    transform: translateY(100vh);
+}
+
+#quartz-canvas {
+    width: min(88vw, 118vh);
+    /* más grande, escala con el alto disponible */
+    height: auto;
+    max-width: 88vw;
+    max-height: 92vh;
+    object-fit: contain;
+    /* Baja el cuarzo para que su base/reflejo lleguen al piso de la sección
+       (la parte inferior en blanco del render queda bajo el pliegue). */
+    margin-bottom: -6vh;
+    /* Funde el fondo blanco del render con la página: elimina la sensación
+       de "imagen/caja recortada" sobre el blanco del sitio. */
+    mix-blend-mode: multiply;
+}
+
+/* Vídeo que releva al canvas al seleccionar una sección.
+   Replica EXACTAMENTE la geometría que el flex de .quartz-wrapper le da al
+   canvas (centrado + apoyado en el piso + el mismo margin negativo), porque
+   el relevo sólo pasa desapercibido si ambos ocupan el mismo rectángulo. */
+#selection-video {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: min(88vw, 108vh);
+    max-width: 68vw;
+    max-height: 88vh;
+    height: auto;
+    margin-bottom: -12vh;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Imagen del Cuarzo Solo que se desplaza hacia la derecha al aislarse */
+#single-quartz-img {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    transform-origin: center bottom;
+    width: min(88vw, 118vh);
+    max-width: 88vw;
+    max-height: 92vh;
+    height: auto;
+    margin-bottom: -20vh;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 12;
+}
+
+/* Logo Dorado Claro con flechas para la vista de subpágina */
+.gold-logo-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    pointer-events: auto;
+    transition: opacity 0.4s ease;
+}
+
+.gold-logo-right {
+    right: 6vw;
+}
+
+.gold-logo-left {
+    left: 6vw;
+}
+
+.brand-logo-gold {
+    height: clamp(28px, 3.5vh, 45px);
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-arrow {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 2vw, 2.2rem);
+    font-weight: 700;
+    color: var(--gold-circuit);
+    line-height: 1;
+}
+
+/* SVG Circuit Overlay */
+#circuit-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.circuit-path {
+    fill: none;
+    stroke: var(--gold-circuit);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.circuit-node {
+    fill: var(--gold-circuit);
+    stroke: none;
+    opacity: 0;
+}
+
+/* Motion Graphics del Hero.
+   Ocupan las dos cajas marcadas en la referencia: la izquierda a media altura
+   y la derecha abajo. `contain` evita deformar el vídeo dentro de su caja y
+   `multiply` funde su fondo blanco con el de la página (sin marco visible). */
+.hero-motion {
+    position: absolute;
+    z-index: 15;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: multiply;
+}
+
+/* Cada caja usa la proporción nativa de su vídeo para que lo llene sin
+   deformarlo ni recortarlo. */
+
+/* Izquierda: manifiesto en terminal (apaisado), centrado verticalmente en la zona izquierda. */
+#mg-left {
+    left: 2vw;
+    top: 36vh;
+    width: 34vw;
+    aspect-ratio: 850 / 420;
+    /* texto_manifesto: 850x420 */
+    height: auto;
+}
+
+/* Derecha: "desliza hacia abajo" (cuadrado), centrado verticalmente en la zona derecha. */
+#mg-right {
+    right: 2vw;
+    top: 32vh;
+    bottom: auto;
+    width: 30vw;
+    aspect-ratio: 1 / 1;
+    /* cuarzo_naciendo: 800x800 */
+    height: auto;
+}
+
+/* Desactivar el motion graphic circular de la red (second brain) */
+#mg-second-brain {
+    display: none !important;
+}
+
+/* Estado "regreso al inicio": cuando el usuario baja y vuelve a subir a
+   scroll 0, flanquean el cuarzo en vez de apilarse en la columna izquierda
+   como en la primera aparición. width usa min(vw, vh) por el mismo motivo
+   que #mg-second-brain (cuadrado + ancla por `top` = riesgo de desbordar
+   por abajo en pantallas panorámicas). */
+#mg-return-left {
+    left: 1vw;
+    top: 15vh;
+    width: min(80vw, 80vh);
+    aspect-ratio: 1 / 1;
+    /* second_brain_loop: 1000x1000 */
+    height: auto;
+}
+
+#mg-return-right {
+    right: 3vw;
+    top: 45vh;
+    width: 40vw;
+    aspect-ratio: 900 / 380;
+    /* texto_manifesto_retorno_loop: 900x380 */
+    height: auto;
+}
+
+@media (max-width: 992px) {
+    #mg-left {
+        left: 1vw;
+        top: 30vh;
+        width: 46vw;
+    }
+
+    #mg-right {
+        right: 1vw;
+        top: 48vh;
+        bottom: auto;
+        width: 46vw;
+    }
+
+    #mg-return-left {
+        left: 1vw;
+        top: 28vh;
+        width: min(36vw, 30vh);
+    }
+
+    #mg-return-right {
+        right: 1vw;
+        top: 62vh;
+        width: 44vw;
+    }
+}
+
+/* Floating Typography Titles */
+.title-label {
+    position: absolute;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(0.75rem, 1.1vw, 1.05rem);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--text-black);
+    text-decoration: none;
+    z-index: 60;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: color 0.3s ease, transform 0.3s ease, letter-spacing 0.3s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.title-label:hover {
+    color: var(--gold-circuit);
+    letter-spacing: 2.3px;
+    transform: translateY(-2px);
+}
+
+#title-ul {
+    top: 6vh;
+    left: 6vw;
+}
+
+#title-ur {
+    top: 6vh;
+    right: 6vw;
+}
+
+#title-ll {
+    bottom: 25vh;
+    left: 6vw;
+}
+
+#title-lr {
+    bottom: 25vh;
+    right: 6vw;
+}
+
+/* Responsive Adaptations */
+@media (max-width: 992px) {
+    #title-ul {
+        top: 14vh;
+        left: 4vw;
+    }
+
+    #title-ur {
+        top: 14vh;
+        right: 4vw;
+    }
+
+    #title-ll {
+        bottom: 18vh;
+        left: 4vw;
+    }
+
+    #title-lr {
+        bottom: 18vh;
+        right: 4vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .title-label {
+        font-size: 0.7rem;
+        letter-spacing: 1.2px;
+    }
+}
