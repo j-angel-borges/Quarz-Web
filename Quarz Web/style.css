@@ -122,18 +122,18 @@ header#main-header {
     pointer-events: none;
 }
 
-/* Imagen del Cuarzo Solo que se desplaza hacia la derecha al aislarse */
+/* Imagen del Cuarzo Solo que se desplaza hacia la derecha o izquierda al aislarse */
 #single-quartz-img {
     position: absolute;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
     transform-origin: center bottom;
-    width: min(88vw, 118vh);
-    max-width: 88vw;
-    max-height: 92vh;
+    width: min(88vw, 108vh);
+    max-width: 68vw;
+    max-height: 88vh;
     height: auto;
-    margin-bottom: -20vh;
+    margin-bottom: -12vh;
     object-fit: contain;
     mix-blend-mode: multiply;
     opacity: 0;
