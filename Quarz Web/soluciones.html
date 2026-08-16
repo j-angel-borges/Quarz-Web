@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUARZ — Soluciones para Empresas</title>
+    <link rel="icon" type="image/png" href="media/logos/favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="media/logos/favicon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --gold-circuit: #c2be9f;
+            --gold-dark: #8c8669;
+            --gold-hover: #9f9b7c;
+            --gold-glow: rgba(194, 190, 159, 0.3);
+            --gold-border: rgba(194, 190, 159, 0.35);
+            --gold-light: rgba(194, 190, 159, 0.12);
+            --text-black: #111111;
+            --text-gray: #4f555e;
+            --text-light-gray: #7a828e;
+            --bg-white: #ffffff;
+            --bg-soft: #fafaf8;
+            --card-bg: #ffffff;
+            --card-border: rgba(194, 190, 159, 0.35);
+            --card-shadow: 0 16px 40px rgba(0, 0, 0, 0.04);
+            --dark-card: #111111;
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --carousel-card-width: 440px;
+            --carousel-gap: 28px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--bg-white);
+            font-family: var(--font-body);
+            color: var(--text-black);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ------------------------------------------------------------------
+           STAGE & ELEMENTOS FIJOS DE SUBPÁGINA
+           ------------------------------------------------------------------ */
+        .stage-subpage {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-white);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Título en la esquina superior izquierda (Idéntico a index.html) */
+        .subpage-title-ul {
+            position: fixed;
+            top: 6vh;
+            left: 6vw;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: clamp(0.75rem, 1.1vw, 1.05rem);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--text-black);
+            text-decoration: none;
+            z-index: 9999;
+            pointer-events: auto;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+
+        .subpage-title-ul:hover {
+            color: var(--gold-hover);
+        }
+
+        /* Header con logo dorado y flecha '>' a la derecha (QUARZ >) */
+        .sub-header-right {
+            position: fixed;
+            top: 3.5vh;
+            right: 6vw;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            pointer-events: auto !important;
+        }
+
+        .brand-logo-gold {
+            height: clamp(28px, 3.5vh, 45px);
+            width: auto;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-arrow {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 2vw, 2.2rem);
+            font-weight: 700;
+            color: var(--gold-circuit);
+            line-height: 1;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .sub-header-right a:hover .logo-arrow {
+            transform: translateX(4px);
+            color: var(--gold-hover);
+        }
+
+        /* Cuarzo fijado en el fondo derecho */
+        .subpage-quartz {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) translateX(55vw) translateY(2vh) scale(0.62);
+            transform-origin: center bottom;
+            width: min(88vw, 118vh);
+            max-width: 88vw;
+            max-height: 92vh;
+            aspect-ratio: 1 / 1;
+            height: auto;
+            margin-bottom: -6vh;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.95;
+            transition: opacity 0.4s ease;
+        }
+
+        /* SVG de Circuitos Dorados */
+        #circuit-svg-sub {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 60;
+        }
+
+        .circuit-path-sub {
+            stroke: var(--gold-circuit);
+            stroke-width: 1.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .circuit-node-sub {
+            fill: var(--gold-circuit);
+        }
+
+        /* ------------------------------------------------------------------
+           CONTENEDOR PRINCIPAL DEL CONTENIDO SCROLLABLE
+           ------------------------------------------------------------------ */
+        .page-content-wrapper {
+            position: relative;
+            width: 100%;
+            z-index: 10;
+            padding-top: 16vh;
+            padding-bottom: 12vh;
+            pointer-events: auto;
+        }
+
+        .content-container {
+            width: 90%;
+            max-width: 1340px;
+            margin: 0 auto;
+        }
+
+        /* ------------------------------------------------------------------
+           SECCIÓN 1: HERO Y PREMISA FUNDACIONAL (CONCISA)
+           ------------------------------------------------------------------ */
+        .hero-statement-section {
+            padding-bottom: 6vh;
+            position: relative;
+            max-width: 820px;
+        }
+
+        .terminal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border: 1px solid var(--gold-border);
+            border-radius: 100px;
+            background: var(--gold-light);
+            font-family: var(--font-mono);
+            font-size: clamp(0.68rem, 0.8vw, 0.82rem);
+            font-weight: 700;
+            color: var(--text-black);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .terminal-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--gold-circuit);
+            display: inline-block;
+        }
+
+        .main-hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 3.8vw, 4rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -1.2px;
+            color: var(--text-black);
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+        }
+
+        .main-hero-title span.gold-highlight {
+            color: var(--gold-hover);
+        }
+
+        .hero-lead-text {
+            font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+            line-height: 1.65;
+            color: #333333;
+            font-weight: 400;
+            max-width: 780px;
+            margin-bottom: 28px;
+        }
+
+        .hero-manifesto-box {
+            position: relative;
+            padding: 20px 24px;
+            background: #fafaf8;
+            border-left: 3px solid var(--gold-circuit);
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            margin-bottom: 28px;
+            border-top: 1px solid rgba(194, 190, 159, 0.2);
+            border-right: 1px solid rgba(194, 190, 159, 0.2);
+            border-bottom: 1px solid rgba(194, 190, 159, 0.2);
+        }
+
+        .hero-manifesto-box p {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            color: #2b2b2b;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .scroll-invitation {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--gold-dark);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .scroll-invitation svg {
+            animation: bounceDown 2s infinite ease-in-out;
+        }
+
+        @keyframes bounceDown {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* ------------------------------------------------------------------
+           SECCIÓN 2: SHOWCASE CAROUSEL (INSPIRADO EN ESTRUCTURA B2C)
+           Colorimetría QUARZ Studio White & Champagne Gold
+           ------------------------------------------------------------------ */
+        .feature-video-showcase {
+            margin: 40px auto 80px auto;
+            width: 100%;
+            position: relative;
+        }
+
+        .showcase-header {
+            margin-bottom: 36px;
+        }
+
+        .section-tag-mono {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--gold-circuit);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .section-headline {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 2.7vw, 2.7rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.8px;
+            color: var(--text-black);
+            text-transform: uppercase;
+            max-width: 820px;
+        }
+
+        /* Viewport del Carrusel */
+        .carousel-outer-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carousel-viewport-wrapper {
+            width: 100%;
+            overflow: hidden;
+            padding: 24px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: var(--carousel-gap);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 10px calc(50% - (var(--carousel-card-width) / 2));
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Tarjeta de Funcionalidad QUARZ */
+        .feature-card {
+            flex: 0 0 var(--carousel-card-width);
+            width: var(--carousel-card-width);
+            max-width: 88vw;
+            scroll-snap-align: center;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            overflow: hidden;
+            opacity: 0.65;
+            transform: scale(0.96);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+        }
+
+        @media (max-width: 540px) {
+            .feature-card {
+                flex: 0 0 84vw;
+                width: 84vw;
+            }
+        }
+
+        .feature-card:hover {
+            opacity: 0.9;
+            transform: scale(0.99);
+        }
+
+        .feature-card.is-active {
+            opacity: 1;
+            transform: scale(1.03);
+            border-color: var(--gold-circuit);
+            box-shadow: 0 24px 60px rgba(194, 190, 159, 0.22);
+        }
+
+        /* Escenario de Imagen/Visual Superior */
+        .card-media-stage {
+            width: 100%;
+            aspect-ratio: 16 / 11;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(194, 190, 159, 0.2);
+            padding: 16px;
+        }
+
+        .card-media-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-card.is-active .card-media-img {
+            transform: scale(1.04);
+        }
+
+        /* Bloque de Tipografía en HTML (Inferior) */
+        .card-content-bottom {
+            padding: 28px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #ffffff;
+        }
+
+        .card-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+
+        .card-headline {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-black);
+            margin: 0;
+            line-height: 1.25;
+            letter-spacing: -0.4px;
+        }
+
+        .card-description {
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        /* Controles de Navegación del Carrusel */
+        .carousel-controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .carousel-arrow-btn {
+            background: #ffffff;
+            border: 1px solid var(--gold-border);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-black);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .carousel-arrow-btn:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-circuit);
+            transform: scale(1.08);
+        }
+
+        .carousel-arrow-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .carousel-dots-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(194, 190, 159, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.is-active {
+            width: 22px;
+            border-radius: 100px;
+            background: var(--gold-hover);
+            box-shadow: 0 0 8px rgba(194, 190, 159, 0.5);
+        }
+
+        /* ------------------------------------------------------------------
+           SECCIÓN 3: MANIFIESTO DE AUTORIDAD TÉCNICA EMPÍRICA (SIN CTA)
+           ------------------------------------------------------------------ */
+        .authority-manifesto-section {
+            padding: 4vh 0 8vh 0;
+        }
+
+        .manifesto-dark-box {
+            background: var(--dark-card);
+            color: #ffffff;
+            border-radius: var(--border-radius-lg);
+            padding: 60px 52px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(194, 190, 159, 0.25);
+        }
+
+        .manifesto-dark-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(194, 190, 159, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+        }
+
+        .manifesto-tag {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold-circuit);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .manifesto-quote {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 2.3vw, 2.3rem);
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.6px;
+            color: #ffffff;
+            margin-bottom: 28px;
+            max-width: 900px;
+        }
+
+        .manifesto-quote span {
+            color: var(--gold-circuit);
+        }
+
+        .manifesto-body {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #b5b5b5;
+            max-width: 840px;
+            margin-bottom: 32px;
+        }
+
+        .manifesto-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .manifesto-signature {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .manifesto-sub-sig {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--gold-circuit);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ------------------------------------------------------------------
+           RESPONSIVE
+           ------------------------------------------------------------------ */
+        @media (max-width: 1024px) {
+            .page-content-wrapper {
+                padding-top: 16vh;
+            }
+
+            .subpage-quartz {
+                opacity: 0.2;
+                transform: translateX(-50%) translateY(12vh) scale(0.5);
+            }
+
+            .manifesto-dark-box {
+                padding: 40px 28px;
+            }
+        }
+
+        /* Overlay de Difuminado (Márgenes) */
+        .top-blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 10vh;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+            z-index: 40;
+            pointer-events: none;
+            transition: background 1s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Overlays de Difuminado para respetar márgenes -->
+    <div class="top-blur-overlay"></div>
+    <!-- Escenario fijo de fondo con el cuarzo y circuitos -->
+    <div class="stage-subpage">
+        <!-- Cuarzo Solo a la Derecha -->
+        <img id="sub-quartz-img" src="media/images/cuarzo_soluciones_para_empresas.png" alt="Cuarzo Soluciones"
+            class="subpage-quartz">
+    </div>
+
+    <!-- Título en la esquina superior izquierda (Idéntico a index.html) -->
+    <a href="index.html" class="subpage-title-ul" id="sub-title">SOLUCIONES PARA EMPRESAS</a>
+
+    <!-- Header con logo dorado y flecha '>' a la derecha (QUARZ >) -->
+    <header class="sub-header-right">
+        <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+            <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold">
+            <span class="logo-arrow">&gt;</span>
+        </a>
+    </header>
+
+    <!-- CONTENIDO SCROLLABLE CONCISO (ESTRUCTURA SHOWCASE B2C + COLORIMETRÍA QUARZ + SIN CTA) -->
+    <div class="page-content-wrapper">
+        <div class="content-container">
+
+            <!-- SECCIÓN 1: HERO NARRATIVO Y PREMISA FUNDACIONAL -->
+            <section class="hero-statement-section">
+                <div class="terminal-badge">
+                    <span>ARQUITECTURA AI-FIRST</span>
+                </div>
+
+                <h1 class="main-hero-title">
+                    El software de tu empresa es obsoleto.<br>
+                    si no usas Herramientas <span class="gold-highlight"> Inteligentes.</span>
+                </h1>
+
+                <div class="hero-manifesto-box">
+                    <p>
+                        "Tener herramientas que entiendan a profundidad un negocio depende estrictamente de la
+                        capacidad humana para organizar directorios, fuentes de verdad (SSOT) y repositorios bien
+                        contextualizados, eliminando la fricción de raíz."
+                    </p>
+                </div>
+
+                <!-- SECCIÓN 2: SHOWCASE CAROUSEL DEL SERVICIO ÚNICO -->
+                <section class="feature-video-showcase">
+                    <div class="showcase-header">
+                        <span class="section-tag-mono">01 //SERVICIO</span>
+                        <h2 class="section-headline">Implementacion de sistemas operativos</h2>
+                    </div>
+
+                    <!-- Carrusel Interactivo -->
+                    <div class="carousel-outer-container">
+                        <div class="carousel-viewport-wrapper">
+                            <div class="carousel-track" id="featureCarouselTrack">
+
+                                <!-- Tarjeta 1: SSOT Canon & Context Engineering -->
+                                <div class="feature-card is-active" data-index="0">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_ssot_context_engine.png" alt="SSOT Context Engine"
+                                            class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 01</span>
+                                        <h3 class="card-headline">SSOT Canon & Context Engineering</h3>
+                                        <p class="card-description">
+                                            Taxonomías vivas y memorias de negocio estructuradas para eliminar la
+                                            alucinación agéntica de raíz.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 2: Deterministic Multi-Agent Swarms -->
+                                <div class="feature-card" data-index="1">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_agent_swarm_telemetry.png" alt="Multi-Agent Swarm"
+                                            class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 02</span>
+                                        <h3 class="card-headline">Enjambres Multi-Agente & Tool Calling</h3>
+                                        <p class="card-description">
+                                            Orquestación jerárquica con llamadas a herramientas en sandboxes seguros y
+                                            ejecución determinista.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 3: Cross-Department Unified Ingestion -->
+                                <div class="feature-card" data-index="2">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_cross_department_matrix.png"
+                                            alt="Cross Department Sync" class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 03</span>
+                                        <h3 class="card-headline">Interconexión de Áreas sin Fricción</h3>
+                                        <p class="card-description">
+                                            Sincronización transversal entre producto, operaciones, desarrollo y
+                                            dirección,
+                                            preservando la cultura.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 4: Continuous Adversarial Audit -->
+                                <div class="feature-card" data-index="3">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_adversarial_guardrails.png" alt="Adversarial Audit"
+                                            class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 04</span>
+                                        <h3 class="card-headline">Auditoría Continua & Guardrails</h3>
+                                        <p class="card-description">
+                                            Verificación adversarial y monitorización proactiva para garantizar la
+                                            pureza de
+                                            cada entregable.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Controles del Carrusel -->
+                        <div class="carousel-controls-bar">
+                            <button class="carousel-arrow-btn" id="prevCardBtn" aria-label="Anterior">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                                </svg>
+                            </button>
+                            <div class="carousel-dots-container" id="carouselDots">
+                                <span class="carousel-dot is-active" data-dot="0"></span>
+                                <span class="carousel-dot" data-dot="1"></span>
+                                <span class="carousel-dot" data-dot="2"></span>
+                                <span class="carousel-dot" data-dot="3"></span>
+                            </div>
+                            <button class="carousel-arrow-btn" id="nextCardBtn" aria-label="Siguiente">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: MANIFIESTO DE AUTORIDAD TÉCNICA EMPÍRICA (SIN CTA) -->
+                <section class="authority-manifesto-section">
+                    <div class="manifesto-dark-box">
+                        <h3 class="manifesto-quote">
+                            "No somos académicos, IA Bros, ni perfiles tradicionales adaptándose tarde.
+                            <span>Somos profesionales empíricos construyendo valor real desde el día cero.</span>"
+                        </h3>
+                        <p class="manifesto-body">
+                            La habilidad maestra para orquestar estos sistemas y estructurar el contexto organizacional
+                            es
+                            una disciplina que esta generación recién empieza a desarrollar. Quienes hemos
+                            experimentado,
+                            depurado e implementado estas herramientas a diario desde su génesis somos quienes poseemos
+                            la
+                            autoridad técnica para determinar su uso e implementación corporativa.
+                        </p>
+                        <div class="manifesto-footer">
+                            <div>
+                                <div class="manifesto-signature">QUARZ HOLDING</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT DE CÁLCULO DINÁMICO DE LÍNEA Y CARRUSEL INTERACTIVO -->
+    <script>
+        // Inicializar Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Trazado Dinámico de Línea de Circuito (100% Paridad con script.js)
+        function drawSubpageCircuit() {
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+            const svg = document.getElementById("circuit-svg-sub");
+            svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+            const title = document.getElementById("sub-title");
+            const quartz = document.getElementById("sub-quartz-img");
+            const line = document.getElementById("sub-line");
+            const nStart = document.getElementById("sub-node-start");
+            const nEnd = document.getElementById("sub-node-end");
+
+            if (!title || !quartz || !line) return;
+
+            const rTitle = title.getBoundingClientRect();
+            const rQ = quartz.getBoundingClientRect();
+
+            // Inicio bajo el título en la esquina superior izquierda (idéntico a script.js)
+            const startX = rTitle.left + 15;
+            const startY = rTitle.bottom + 10;
+
+            // Canal horizontal pasando por debajo del header
+            const yChannel = startY + 24;
+
+            // Punta del cuarzo en la derecha (ratio 0.30 / 0.07)
+            const tipX = rQ.left + rQ.width * 0.30;
+            const tipY = rQ.top + rQ.height * 0.07;
+
+            // Trazado ortogonal continuo: inicio -> baja 24px -> corre horizontal a tipX -> baja vertical directo a la punta del cuarzo
+            const pts = [
+                [startX, startY],
+                [startX, yChannel],
+                [tipX, yChannel],
+                [tipX, tipY]
+            ];
+
+            line.setAttribute("d", "M " + pts.map(p => p[0] + " " + p[1]).join(" L "));
+
+            nStart.setAttribute("cx", startX);
+            nStart.setAttribute("cy", startY);
+
+            nEnd.setAttribute("cx", tipX);
+            nEnd.setAttribute("cy", tipY);
+        }
+
+        window.addEventListener("load", () => {
+            drawSubpageCircuit();
+            initAnimations();
+            initCarousel();
+        });
+
+        window.addEventListener("resize", () => {
+            drawSubpageCircuit();
+            ScrollTrigger.refresh();
+        });
+
+        // Animaciones GSAP
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Entrada suave del contenido
+            gsap.from(".hero-statement-section", {
+                opacity: 0,
+                y: 25,
+                duration: 0.9,
+                ease: "power2.out"
+            });
+
+            // Cuarzo y circuito se desvanecen suavemente al hacer scroll profundo
+            gsap.to("#sub-quartz-img", {
+                scrollTrigger: {
+                    trigger: ".page-content-wrapper",
+                    start: "top top",
+                    end: "35% top",
+                    scrub: true
+                },
+                opacity: 0.1,
+                scale: 0.55
+            });
+
+            gsap.to("#circuit-svg-sub", {
+                scrollTrigger: {
+                    trigger: ".page-content-wrapper",
+                    start: "top top",
+                    end: "25% top",
+                    scrub: true
+                },
+                opacity: 0.12
+            });
+        }
+
+        // Lógica del Carrusel Interactivo (Inspirado en B2C Showcase)
+        function initCarousel() {
+            const track = document.getElementById('featureCarouselTrack');
+            const cards = Array.from(document.querySelectorAll('.feature-card'));
+            const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+            const prevBtn = document.getElementById('prevCardBtn');
+            const nextBtn = document.getElementById('nextCardBtn');
+
+            let currentIndex = 0;
+
+            function updateActiveCard(index) {
+                currentIndex = index;
+                cards.forEach((card, idx) => {
+                    if (idx === index) {
+                        card.classList.add('is-active');
+                    } else {
+                        card.classList.remove('is-active');
+                    }
+                });
+
+                dots.forEach((dot, idx) => {
+                    if (idx === index) {
+                        dot.classList.add('is-active');
+                    } else {
+                        dot.classList.remove('is-active');
+                    }
+                });
+            }
+
+            function scrollToIndex(index) {
+                if (index < 0) index = 0;
+                if (index >= cards.length) index = cards.length - 1;
+
+                const card = cards[index];
+                const trackRect = track.getBoundingClientRect();
+                const cardRect = card.getBoundingClientRect();
+                const scrollLeftTarget = track.scrollLeft + (cardRect.left - trackRect.left) - (trackRect.width / 2) + (cardRect.width / 2);
+
+                track.scrollTo({
+                    left: scrollLeftTarget,
+                    behavior: 'smooth'
+                });
+
+                updateActiveCard(index);
+            }
+
+            // Click en cards
+            cards.forEach((card, idx) => {
+                card.addEventListener('click', () => {
+                    scrollToIndex(idx);
+                });
+            });
+
+            // Click en dots
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => {
+                    scrollToIndex(idx);
+                });
+            });
+
+            // Flechas
+            prevBtn.addEventListener('click', () => {
+                scrollToIndex(currentIndex - 1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                scrollToIndex(currentIndex + 1);
+            });
+
+            // IntersectionObserver para detectar card central activa al hacer scroll manual
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        const idx = parseInt(entry.target.getAttribute('data-index'), 10);
+                        updateActiveCard(idx);
+                    }
+                });
+            }, {
+                root: track,
+                threshold: 0.5
+            });
+
+            cards.forEach(card => observer.observe(card));
+        }
+    </script>
+
+
+
+        <!-- Línea de Circuito SVG Conectando el Título con el Cuarzo -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path-sub" d="" />
+            <circle id="sub-node-start" class="circuit-node-sub" r="3.5" />
+            <circle id="sub-node-end" class="circuit-node-sub" r="3.5" />
+        </svg>
+</body>
+
+</html>
