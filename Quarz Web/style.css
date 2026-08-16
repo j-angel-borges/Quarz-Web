@@ -341,29 +341,54 @@ header#main-header {
 /* Responsive Adaptations */
 @media (max-width: 992px) {
     #title-ul {
-        top: 14vh;
+        top: 13vh;
         left: 4vw;
     }
 
     #title-ur {
-        top: 14vh;
+        top: 13vh;
         right: 4vw;
     }
 
     #title-ll {
-        bottom: 18vh;
+        bottom: 17vh;
         left: 4vw;
     }
 
     #title-lr {
-        bottom: 18vh;
+        bottom: 17vh;
         right: 4vw;
     }
 }
 
 @media (max-width: 600px) {
     .title-label {
-        font-size: 0.7rem;
-        letter-spacing: 1.2px;
+        font-size: 0.65rem;
+        letter-spacing: 0.8px;
+        padding: 4px 6px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 4px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    #title-ul {
+        top: 12vh;
+        left: 3vw;
+    }
+
+    #title-ur {
+        top: 17vh;
+        right: 3vw;
+    }
+
+    #title-ll {
+        bottom: 18vh;
+        left: 3vw;
+    }
+
+    #title-lr {
+        bottom: 13vh;
+        right: 3vw;
     }
 }

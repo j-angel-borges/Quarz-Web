@@ -395,6 +395,83 @@
         .protocol-metrics span {
             font-weight: 400;
         }
+
+        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES (<768px) --- */
+        @media (max-width: 768px) {
+            #opportunity {
+                padding: 14vh 5% 40px;
+            }
+            #opportunity h2 {
+                font-size: clamp(1.6rem, 6vw, 2.2rem);
+            }
+            #opportunity .subtitle {
+                font-size: 0.85rem;
+                margin-top: 1rem;
+            }
+            .radar-container {
+                width: 100%;
+                max-width: 100%;
+                aspect-ratio: auto;
+                margin-top: 2rem;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px 0;
+            }
+            .radar-circle {
+                display: none !important;
+            }
+            .radar-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            .opportunity-point {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                transform: none !important;
+                width: auto !important;
+                display: inline-flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 8px !important;
+                background: rgba(250, 249, 245, 0.95);
+                border: 1px solid rgba(226, 222, 208, 0.9);
+                border-radius: 30px;
+                padding: 8px 16px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            }
+            .opportunity-point .dot {
+                margin-bottom: 0 !important;
+                width: 10px;
+                height: 10px;
+                flex-shrink: 0;
+            }
+            .opportunity-point h3 {
+                font-size: 0.82rem;
+                white-space: nowrap;
+                color: var(--text-black);
+            }
+            .timeline-line {
+                left: 20px;
+            }
+            .timeline-entry {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 15px;
+                text-align: left !important;
+                left: 0 !important;
+            }
+            .timeline-entry:after {
+                left: 12px !important;
+            }
+            .mechanics-column {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -616,6 +693,10 @@
             ];
 
             function setInitialPositions() {
+                if (window.innerWidth <= 768) {
+                    gsap.set('.opportunity-point', { clearProps: 'top,left,transform' });
+                    return;
+                }
                 points.forEach(point => {
                     const angleInRadians = point.startAngle * Math.PI / 180;
                     const x = centerX + point.radius * Math.cos(angleInRadians);
@@ -624,6 +705,7 @@
                 });
             }
             setInitialPositions();
+            window.addEventListener('resize', setInitialPositions);
 
             gsap.set([".radar-circle", ".opportunity-point", ".radar-icon"], { scale: 0, opacity: 0 });
             const opportunityTimeline = gsap.timeline({
@@ -646,6 +728,7 @@
                 repeat: -1,
                 paused: true,
                 onUpdate: function () {
+                    if (window.innerWidth <= 768) return;
                     const currentAngle = this.targets()[0].angle;
                     points.forEach(point => {
                         const angleInRadians = (point.startAngle + currentAngle) * Math.PI / 180;
@@ -655,7 +738,9 @@
                     });
                 }
             });
-            opportunityTimeline.call(() => orbitAnimation.play());
+            opportunityTimeline.call(() => {
+                if (window.innerWidth > 768) orbitAnimation.play();
+            });
 
             // --- ANIMACIÓN FLECHA DE SCROLL ---
             gsap.to(".scroll-down-arrow", { y: 10, repeat: -1, yoyo: true, ease: "power1.inOut", duration: 0.8 });

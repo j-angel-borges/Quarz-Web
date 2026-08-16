@@ -973,8 +973,42 @@
             font-family: var(--font-heading);
         }
 
-
-        body.dark-mode
+        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES (<768px) --- */
+        @media (max-width: 768px) {
+            .section-header-pill h2 {
+                font-size: clamp(1.6rem, 6.5vw, 2.4rem);
+            }
+            .feature-card {
+                flex: 0 0 280px;
+                min-width: 280px;
+            }
+            .pillars-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .pillar-card {
+                padding: 24px 20px;
+            }
+            .parental-header h2 {
+                font-size: clamp(1.6rem, 6.5vw, 2.4rem);
+            }
+            .parental-main-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .benefits-viewport {
+                height: auto;
+            }
+            .benefits-scroll-list {
+                gap: 12px;
+            }
+            .subpage-title-ll {
+                font-size: 0.72rem;
+                bottom: 4vh;
+                left: 5vw;
+                letter-spacing: 1px;
+            }
+        }
     </style>
 </head>
 
