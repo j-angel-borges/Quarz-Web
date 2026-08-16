@@ -392,35 +392,3 @@ header#main-header {
         right: 3vw;
     }
 }
-
-@media (max-height: 520px) {
-    .title-label {
-        font-size: 0.62rem;
-        letter-spacing: 0.6px;
-        padding: 3px 6px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 4px;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-    }
-
-    #title-ul {
-        top: 10vh;
-        left: 3vw;
-    }
-
-    #title-ur {
-        top: 10vh;
-        right: 3vw;
-    }
-
-    #title-ll {
-        bottom: 12vh;
-        left: 3vw;
-    }
-
-    #title-lr {
-        bottom: 12vh;
-        right: 3vw;
-    }
-}

@@ -973,55 +973,65 @@
             font-family: var(--font-heading);
         }
 
-        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES Y TABLETS (<1024px y <768px) --- */
-        @media (max-width: 1024px) {
-            .feature-card {
-                flex: 0 0 320px;
-                min-width: 320px;
+        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES Y TABLETS (<1024px o apaisado) --- */
+        @media (max-width: 1024px), (max-height: 600px) {
+            #circuit-svg-sub {
+                display: none !important;
             }
-            .pillars-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .parental-main-layout {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-        }
 
-        @media (max-width: 768px), (max-height: 520px) {
+            .stage-subpage {
+                display: none !important;
+            }
+
+            .top-blur-overlay {
+                height: 70px;
+            }
+
+            .sub-header-right {
+                top: 20px;
+                right: 5vw;
+            }
+
+            .subpage-title-ll {
+                bottom: 20px;
+                left: 5vw;
+                font-size: 0.72rem;
+                letter-spacing: 1px;
+            }
+
             .section-header-pill h2 {
                 font-size: clamp(1.5rem, 5.5vw, 2.2rem);
             }
+
             .feature-card {
-                flex: 0 0 260px;
-                min-width: 260px;
+                flex: 0 0 280px;
+                min-width: 280px;
             }
+
             .pillars-grid {
                 grid-template-columns: 1fr;
-                gap: 14px;
+                gap: 16px;
             }
+
             .pillar-card {
-                padding: 20px 16px;
+                padding: 22px 18px;
             }
+
             .parental-header h2 {
                 font-size: clamp(1.5rem, 5.5vw, 2.2rem);
             }
+
             .parental-main-layout {
                 grid-template-columns: 1fr;
-                gap: 24px;
+                gap: 28px;
             }
+
             .benefits-viewport {
                 height: auto;
             }
+
             .benefits-scroll-list {
-                gap: 10px;
-            }
-            .subpage-title-ll {
-                font-size: 0.7rem;
-                bottom: 3.5vh;
-                left: 4vw;
-                letter-spacing: 0.8px;
+                gap: 12px;
             }
         }
     </style>
