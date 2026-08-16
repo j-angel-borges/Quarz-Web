@@ -78,7 +78,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 100;
+            z-index: 9999;
             pointer-events: auto !important;
         }
 
@@ -115,7 +115,7 @@
             text-transform: uppercase;
             color: var(--text-main);
             text-decoration: none;
-            z-index: 100;
+            z-index: 9999;
             pointer-events: auto;
             transition: color 0.3s ease, letter-spacing 0.3s ease;
         }
@@ -131,11 +131,12 @@
             bottom: 0;
             transform: translateX(-50%) translateX(-55vw) translateY(2vh) scale(0.62);
             transform-origin: center bottom;
-            width: min(88vw, 108vh);
-            max-width: 68vw;
-            max-height: 88vh;
+            width: min(88vw, 118vh);
+            max-width: 88vw;
+            max-height: 92vh;
+            aspect-ratio: 1 / 1;
             height: auto;
-            margin-bottom: -12vh;
+            margin-bottom: -6vh;
             object-fit: contain;
             mix-blend-mode: multiply;
             z-index: 2;
@@ -151,7 +152,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 5;
+            z-index: 60;
         }
 
         .circuit-path-sub {
@@ -603,23 +604,33 @@
                 padding: 40px 28px;
             }
         }
+
+        /* Overlay de Difuminado (Márgenes) */
+        .top-blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 10.6vh;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+            z-index: 40;
+            pointer-events: none;
+            transition: background 1s ease;
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- Overlays de Difuminado para respetar márgenes -->
+    <div class="top-blur-overlay"></div>
     <!-- Escenario fijo de fondo con el cuarzo y circuitos -->
     <div class="stage-subpage">
         <!-- Cuarzo Solo a la Izquierda -->
         <img id="sub-quartz-img" src="media/images/cuarzo_soluciones_para_empresas.png" alt="Cuarzo Metodología"
             class="subpage-quartz-left">
-
-        <!-- Línea de Circuito SVG Conectando el Título con el Cuarzo -->
-        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-            <path id="sub-line" class="circuit-path-sub" d="" />
-            <circle id="sub-node-start" class="circuit-node-sub" r="3.5" />
-            <circle id="sub-node-end" class="circuit-node-sub" r="3.5" />
-        </svg>
     </div>
 
     <!-- Header con logo dorado y flecha '<' a la izquierda (< QUARZ) -->
@@ -639,7 +650,7 @@
         <!-- HERO VIEWPORT SECTION -->
         <section class="hero-section">
             <div class="hero-badge">
-                <span>PARADIGMA // AI-FIRST SYSTEMS & CONTEXT ENGINEERING</span>
+                <span>AI-FIRST SYSTEMS & CONTEXT ENGINEERING</span>
             </div>
 
             <h1 class="hero-title">
@@ -648,7 +659,11 @@
             </h1>
 
             <p class="hero-lead">
-                A nivel global, la manera de crear software ha cambiado radicalmente. Las organizaciones no necesitan acumular modelos de lenguaje genéricos ni parches cosméticos: requieren replantear sus sistemas desde la base, estructurando la infraestructura de contexto necesaria para que enjambres de agentes autónomos operen con entendimiento pleno de su negocio.
+                A nivel global, la manera de crear software ha cambiado radicalmente. Las organizaciones no necesitan
+                acumular modelos de lenguaje genéricos ni membresias de 20 apps diferentes: requieren replantear desde
+                la
+                base, estructurando la infraestructura de contexto necesaria para que herramientas especializadas
+                operen con entendimiento pleno de su negocio.
             </p>
 
             <div class="hero-metrics-grid">
@@ -657,19 +672,19 @@
                     <div class="metric-lbl">Fuente Única de Verdad</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-val">0%</div>
-                    <div class="metric-lbl">Fricción de Contexto</div>
+                    <div class="metric-val">100%</div>
+                    <div class="metric-lbl">Conexión con equipos</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-val">DAY 0</div>
-                    <div class="metric-lbl">Maestría Empírica Real</div>
+                    <div class="metric-val">60 DIAS</div>
+                    <div class="metric-lbl">Empresa lista para la era IA</div>
                 </div>
             </div>
 
             <div class="scroll-down-hint">
                 <span>DESCUBRE LA METODOLOGÍA</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
                 </svg>
             </div>
         </section>
@@ -679,7 +694,9 @@
             <span class="section-tag">01 // CAMBIO DE PARADIGMA</span>
             <h2 class="section-heading">La diferencia entre adoptar IA y ser una Empresa AI-First</h2>
             <p class="section-lead">
-                Integrar herramientas aisladas sin una estructura de contexto no genera eficiencia; genera dispersión y alucinaciones. En QUARZ auditamos la raíz operativa para que los agentes cuenten con memorias de negocio canónicas e inmutables.
+                Integrar herramientas aisladas sin una estructura de contexto no genera eficiencia; genera dispersión y
+                alucinaciones. En QUARZ auditamos la raíz operativa para que los agentes cuenten con memorias de negocio
+                canónicas e inmutables.
             </p>
 
             <div class="comparison-grid">
@@ -689,19 +706,23 @@
                     <ul class="comp-list">
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Silos de Datos Desconectados:</strong> Herramientas aisladas que no comparten contexto ni jerarquías operativas.</div>
+                            <div><strong>Datos Desconectados:</strong> Herramientas aisladas que no comparten
+                                contexto ni jerarquías operativas.</div>
                         </li>
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Prompts Frágiles y Alucinación:</strong> Agentes sin esquemas deterministas que generan errores en tareas complejas.</div>
+                            <div><strong>Prompts Frágiles y Alucinación:</strong> Agentes sin esquemas deterministas que
+                                generan errores en tareas complejas.</div>
                         </li>
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Fricción Organizacional:</strong> Procesos manuales que saturan al equipo intentando sincronizar herramientas.</div>
+                            <div><strong>Fricción Organizacional:</strong> Procesos manuales que saturan al equipo
+                                intentando sincronizar herramientas.</div>
                         </li>
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Consultoría Académica:</strong> Teoría desconectada de la frontera técnica real del desarrollo agéntico actual.</div>
+                            <div><strong>Consultoría Académica:</strong> Teoría desconectada de la frontera técnica real
+                                del desarrollo agéntico actual.</div>
                         </li>
                     </ul>
                 </div>
@@ -712,19 +733,23 @@
                     <ul class="comp-list">
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>SSOT Canónico Estructurado:</strong> Un único repositorio central que gobierna todas las reglas y políticas del negocio.</div>
+                            <div><strong>SSOT Canónico Estructurado:</strong> Un único repositorio central que gobierna
+                                todas las reglas y políticas del negocio.</div>
                         </li>
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Context Engineering Determinista:</strong> Esquemas y memorias vivas diseñadas para que los agentes ejecuten con precisión matemática.</div>
+                            <div><strong>Context Engineering Determinista:</strong> Esquemas y memorias vivas diseñadas
+                                para que los agentes ejecuten con precisión matemática.</div>
                         </li>
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Interconexión de Áreas sin Fricción:</strong> Sincronización transparente entre ingeniería, producto, operaciones y dirección.</div>
+                            <div><strong>Interconexión de Áreas sin Fricción:</strong> Sincronización transparente entre
+                                ingeniería, producto, operaciones y dirección.</div>
                         </li>
                         <li>
                             <span class="bullet-icon">&gt;</span>
-                            <div><strong>Autoridad Empírica Día Cero:</strong> Implementaciones creadas por profesionales que operan y refinan estas tecnologías a diario.</div>
+                            <div><strong>Autoridad Empírica Día Cero:</strong> Implementaciones creadas por
+                                profesionales que operan y refinan estas tecnologías a diario.</div>
                         </li>
                     </ul>
                 </div>
@@ -732,47 +757,63 @@
         </section>
 
         <!-- SECCIÓN 02: LOS CUATRO PILARES METODOLÓGICOS -->
-        <section class="section-wrapper" style="background: #fafaf8; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);">
+        <section class="section-wrapper"
+            style="background: #fafaf8; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);">
             <span class="section-tag">02 // PILARES TÉCNICOS</span>
             <h2 class="section-heading">Nuestra Metodología en 4 Ejes Fundacionales</h2>
-            <p class="section-lead">
-                Un marco de trabajo riguroso diseñado para transformar la capacidad productiva de una organización mediante orquestación y context engineering.
-            </p>
-
             <div class="pillars-grid">
                 <!-- Pilar 1 -->
                 <div class="pillar-card">
+                    <div class="pillar-media-stage" style="width:100%; aspect-ratio:16/11; border-radius:12px; overflow:hidden; margin-bottom:18px; background:#ffffff; border:1px solid rgba(194,190,159,0.25); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/images/metodologia_context_ingestion.png" alt="Context Engineering & SSOT" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-num">PILAR // 01</div>
                     <h3 class="pillar-title">Context Engineering & SSOT</h3>
                     <p class="pillar-desc">
-                        Estructuración de directorios, fuentes de verdad canónicas y políticas de marca inmutables. Diseñamos taxonomías para que los agentes operen con comprensión total del negocio sin alucinar.
+                        Estructuración de directorios, fuentes de verdad canónicas y políticas de marca inmutables.
+                        Diseñamos taxonomías para que los agentes operen con comprensión total del negocio sin alucinar.
                     </p>
                 </div>
 
                 <!-- Pilar 2 -->
                 <div class="pillar-card">
+                    <div class="pillar-media-stage" style="width:100%; aspect-ratio:16/11; border-radius:12px; overflow:hidden; margin-bottom:18px; background:#ffffff; border:1px solid rgba(194,190,159,0.25); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/images/metodologia_adversarial_testing.png" alt="Orquestación Multi-Agente" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-num">PILAR // 02</div>
                     <h3 class="pillar-title">Orquestación Multi-Agente</h3>
                     <p class="pillar-desc">
-                        Despliegue de enjambres agénticos especializados que se delegan tareas, ejecutan llamadas a herramientas (tool-calling) y se auto-auditan en sandboxes aislados con verificación determinista.
+                        Despliegue de enjambres agénticos especializados que se delegan tareas, ejecutan llamadas a
+                        herramientas (tool-calling) y se auto-auditan en sandboxes aislados con verificación
+                        determinista.
                     </p>
                 </div>
 
                 <!-- Pilar 3 -->
                 <div class="pillar-card">
+                    <div class="pillar-media-stage" style="width:100%; aspect-ratio:16/11; border-radius:12px; overflow:hidden; margin-bottom:18px; background:#ffffff; border:1px solid rgba(194,190,159,0.25); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/images/quarz_cross_department_matrix.png" alt="Interconexión sin Fricción" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-num">PILAR // 03</div>
                     <h3 class="pillar-title">Interconexión sin Fricción</h3>
                     <p class="pillar-desc">
-                        Alineación transversal entre departamentos. Los agentes entienden la cultura corporativa, priorizan lo urgente sin descuidar lo importante y eliminan la fricción diaria del equipo humano.
+                        Alineación transversal entre departamentos. Los agentes entienden la cultura corporativa,
+                        priorizan lo urgente sin descuidar lo importante y eliminan la fricción diaria del equipo
+                        humano.
                     </p>
                 </div>
 
                 <!-- Pilar 4 -->
                 <div class="pillar-card">
+                    <div class="pillar-media-stage" style="width:100%; aspect-ratio:16/11; border-radius:12px; overflow:hidden; margin-bottom:18px; background:#ffffff; border:1px solid rgba(194,190,159,0.25); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/images/metodologia_continuous_ops.png" alt="Maestría Empírica Día Cero" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-num">PILAR // 04</div>
                     <h3 class="pillar-title">Maestría Empírica Día Cero</h3>
                     <p class="pillar-desc">
-                        La capacidad de orquestar estos sistemas no se aprende en manuales del pasado: se forja en el uso intensivo continuo. Implementamos soluciones avaladas por experiencia real en la frontera técnica.
+                        La capacidad de orquestar estos sistemas no se aprende en manuales del pasado: se forja en el
+                        uso intensivo continuo. Implementamos soluciones avaladas por experiencia real en la frontera
+                        técnica.
                     </p>
                 </div>
             </div>
@@ -783,7 +824,8 @@
             <span class="section-tag">03 // BLUEPRINT OPERATIVO</span>
             <h2 class="section-heading">Cómo implementamos: El Ciclo de 4 Fases</h2>
             <p class="section-lead">
-                Un proceso secuencial y auditable que garantiza una transición fluida hacia una arquitectura AI-First de alto rendimiento.
+                Un proceso secuencial y auditable que garantiza una transición fluida hacia una arquitectura AI-First de
+                alto rendimiento.
             </p>
 
             <div class="lifecycle-timeline">
@@ -791,7 +833,8 @@
                     <span class="phase-code">FASE // 01</span>
                     <h4 class="phase-name">Diagnóstico de Raíz</h4>
                     <p class="phase-text">
-                        Auditoría integral de flujos de trabajo, silos de datos, repositorios existentes y puntos de fricción humana.
+                        Auditoría integral de flujos de trabajo, silos de datos, repositorios existentes y puntos de
+                        fricción humana.
                     </p>
                 </div>
 
@@ -799,7 +842,8 @@
                     <span class="phase-code">FASE // 02</span>
                     <h4 class="phase-name">Estructuración SSOT</h4>
                     <p class="phase-text">
-                        Creación de la Fuente Única de Verdad, definición de lineamientos canónicos y esquemas de contexto para agentes.
+                        Creación de la Fuente Única de Verdad, definición de lineamientos canónicos y esquemas de
+                        contexto para agentes.
                     </p>
                 </div>
 
@@ -807,7 +851,8 @@
                     <span class="phase-code">FASE // 03</span>
                     <h4 class="phase-name">Despliegue Agéntico</h4>
                     <p class="phase-text">
-                        Configuración e integración de agentes autónomos con permisos estrictos, tool-calling y orquestación por roles.
+                        Configuración e integración de agentes autónomos con permisos estrictos, tool-calling y
+                        orquestación por roles.
                     </p>
                 </div>
 
@@ -815,31 +860,12 @@
                     <span class="phase-code">FASE // 04</span>
                     <h4 class="phase-name">Auditoría Continua</h4>
                     <p class="phase-text">
-                        Supervisión del rendimiento, reducción de latencia operativa y actualización evolutiva del contexto de negocio.
+                        Supervisión del rendimiento, reducción de latencia operativa y actualización evolutiva del
+                        contexto de negocio.
                     </p>
                 </div>
             </div>
         </section>
-
-        <!-- SECCIÓN 04: MANIFIESTO DE AUTORIDAD (SIN CTA) -->
-        <section class="section-wrapper" style="padding-top: 0; padding-bottom: 14vh;">
-            <div class="manifesto-box">
-                <span class="manifesto-tag">AUTORIDAD EMPÍRICA // DÍA CERO</span>
-                <h3 class="manifesto-quote">
-                    "No somos académicos teorizando en pizarras ni perfiles tradicionales adaptándose tarde. <span>Somos profesionales empíricos construyendo valor real desde el día cero.</span>"
-                </h3>
-                <p class="manifesto-body">
-                    La habilidad maestra para orquestar estos sistemas y herramientas es una competencia que esta generación recién empieza a desarrollar. Quienes hemos empezado desde el génesis de esta revolución y la operamos a diario somos quienes poseemos el criterio técnico y la autoridad para definir su arquitectura.
-                </p>
-                <div class="manifesto-footer">
-                    <div>
-                        <div class="manifesto-signature">QUARZ HOLDING & SYSTEMS</div>
-                        <div class="manifesto-sub-sig">AI-First Infrastructure & Context Engineering</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </div>
 
     <!-- SCRIPT DE CÁLCULO DINÁMICO DE LÍNEA Y PARALLAX -->
@@ -949,6 +975,14 @@
         }
     </script>
 
+
+
+        <!-- Línea de Circuito SVG Conectando el Título con el Cuarzo -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path-sub" d="" />
+            <circle id="sub-node-start" class="circuit-node-sub" r="3.5" />
+            <circle id="sub-node-end" class="circuit-node-sub" r="3.5" />
+        </svg>
 </body>
 
 </html>

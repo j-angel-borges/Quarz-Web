@@ -89,33 +89,33 @@ header#main-header {
 
 #quartz-canvas {
     width: min(88vw, 118vh);
-    /* más grande, escala con el alto disponible */
     height: auto;
     max-width: 88vw;
     max-height: 92vh;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
-    /* Baja el cuarzo para que su base/reflejo lleguen al piso de la sección
-       (la parte inferior en blanco del render queda bajo el pliegue). */
+    /* Baja el cuarzo para que su base/reflejo lleguen al piso de la sección */
     margin-bottom: -6vh;
-    /* Funde el fondo blanco del render con la página: elimina la sensación
-       de "imagen/caja recortada" sobre el blanco del sitio. */
+    /* Funde el fondo blanco del render con la página */
     mix-blend-mode: multiply;
 }
 
 /* Vídeo que releva al canvas al seleccionar una sección.
    Replica EXACTAMENTE la geometría que el flex de .quartz-wrapper le da al
-   canvas (centrado + apoyado en el piso + el mismo margin negativo), porque
-   el relevo sólo pasa desapercibido si ambos ocupan el mismo rectángulo. */
+   canvas (centrado + apoyado en el piso + el mismo margin negativo), garantizando
+   que el relevo sea 100% invisible en cualquier resolución. */
 #selection-video {
     position: absolute;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: min(88vw, 108vh);
-    max-width: 68vw;
-    max-height: 88vh;
+    transform-origin: center bottom;
+    width: min(88vw, 118vh);
+    max-width: 88vw;
+    max-height: 92vh;
+    aspect-ratio: 1 / 1;
     height: auto;
-    margin-bottom: -12vh;
+    margin-bottom: -6vh;
     object-fit: contain;
     mix-blend-mode: multiply;
     opacity: 0;
@@ -129,11 +129,12 @@ header#main-header {
     bottom: 0;
     transform: translateX(-50%);
     transform-origin: center bottom;
-    width: min(88vw, 108vh);
-    max-width: 68vw;
-    max-height: 88vh;
+    width: min(88vw, 118vh);
+    max-width: 88vw;
+    max-height: 92vh;
+    aspect-ratio: 1 / 1;
     height: auto;
-    margin-bottom: -12vh;
+    margin-bottom: -6vh;
     object-fit: contain;
     mix-blend-mode: multiply;
     opacity: 0;
@@ -266,12 +267,7 @@ header#main-header {
     height: auto;
 }
 
-@media (max-width: 992px) {
-    #mg-left {
-        left: 1vw;
-        top: 30vh;
-        width: 46vw;
-    }
+
 
     #mg-right {
         right: 1vw;
@@ -339,11 +335,7 @@ header#main-header {
 }
 
 /* Responsive Adaptations */
-@media (max-width: 992px) {
-    #title-ul {
-        top: 14vh;
-        left: 4vw;
-    }
+
 
     #title-ur {
         top: 14vh;

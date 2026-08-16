@@ -50,7 +50,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 100;
+            z-index: 9999;
             opacity: 1 !important;
             transform: none !important;
             pointer-events: auto !important;
@@ -91,11 +91,11 @@
             top: 0;
             left: 0;
             width: 100vw;
-            height: 5vh;
+            height: 9.5vh;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 100%);
-            z-index: 15;
+            z-index: 40;
             pointer-events: none;
         }
 
@@ -106,7 +106,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 20;
+            z-index: 60;
         }
 
         /* Estilos de Contenido Réplica Oportunidad */
@@ -400,10 +400,12 @@
 
 <body>
 
-    <div class="stage-subpage">
+    
+
 
         <!-- Overlay de Difuminado Superior -->
         <div class="top-blur-overlay"></div>
+
 
         <!-- Header Logo Dorado con Flecha a la Izquierda (< QUARZ) como en Metodología -->
         <header class="sub-header-left">
@@ -413,15 +415,10 @@
             </a>
         </header>
 
+
         <!-- Título Superior Izquierda Abajo -->
         <a href="index.html" class="subpage-title-lr" id="sub-title">HUB DE PARTNERS</a>
-
-        <!-- Línea de Circuito SVG Conectando Abajo-Derecha por el Margen Exterior hasta el Header Izquierdo -->
-        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-            <path id="sub-line" class="circuit-path" d="" />
-            <circle id="sub-node-start" class="circuit-node" r="3.5" style="opacity:1;" />
-            <circle id="sub-node-end" class="circuit-node" r="3.5" style="opacity:1;" />
-        </svg>
+<div class="stage-subpage">
 
         <main>
             <!-- SECCIÓN 1: OPORTUNIDAD RADAR -->
@@ -574,11 +571,11 @@
 
             const rTitle = title.getBoundingClientRect();
 
-            const startX = rTitle.left + 200;
-            const startY = rTitle.top - 20;
+            const startX = rTitle.left + rTitle.width - 15;
+            const startY = rTitle.top - 12;
 
-            const yChannel = H * 0.05;
-            const endX = W * 0.15;
+            const yChannel = H * 0.08;
+            const endX = W * 0.34;
 
             const pts = [
                 [startX, startY],
@@ -697,6 +694,14 @@
         });
     </script>
 
+
+
+        <!-- Línea de Circuito SVG Conectando Abajo-Derecha por el Margen Exterior hasta el Header Izquierdo -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path" d="" />
+            <circle id="sub-node-start" class="circuit-node" r="3.5" style="opacity:1;" />
+            <circle id="sub-node-end" class="circuit-node" r="3.5" style="opacity:1;" />
+        </svg>
 </body>
 
 </html>

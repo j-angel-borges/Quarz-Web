@@ -111,20 +111,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const rLl = titleLl.getBoundingClientRect();
         const rLr = titleLr.getBoundingClientRect();
 
-        // Calcular posición en reposo del canvas 1:1 en el piso
-        const canvasS = Math.min(W * 0.88, H * 0.92);
-        const cLeft = (W - canvasS) / 2;
-        const cTop = H - canvasS + H * 0.06;
+        // Posición y escala física real del canvas en pantalla
+        const rCanvas = canvas.getBoundingClientRect();
 
-        // Puntos de nacimiento justo arriba de cada punta de cuarzo (con pequeño margen de 8px)
-        const tipUl = { x: cLeft + canvasS * 0.245, y: cTop + canvasS * 0.208 - 8 };
-        const tipUr = { x: cLeft + canvasS * 0.754, y: cTop + canvasS * 0.208 - 8 };
-        const tipLl = { x: cLeft + canvasS * 0.040, y: cTop + canvasS * 0.361 - 8 };
-        const tipLr = { x: cLeft + canvasS * 0.955, y: cTop + canvasS * 0.361 - 8 };
+        // Puntos de nacimiento anclados exactamente sobre la punta de cada cuarzo en el canvas
+        const tipUl = { x: rCanvas.left + rCanvas.width * 0.245, y: rCanvas.top + rCanvas.height * 0.208 - 8 };
+        const tipUr = { x: rCanvas.left + rCanvas.width * 0.754, y: rCanvas.top + rCanvas.height * 0.208 - 8 };
+        const tipLl = { x: rCanvas.left + rCanvas.width * 0.040, y: rCanvas.top + rCanvas.height * 0.361 - 8 };
+        const tipLr = { x: rCanvas.left + rCanvas.width * 0.955, y: rCanvas.top + rCanvas.height * 0.361 - 8 };
 
         // Canales verticales en los márgenes exteriores para conectar con los títulos
-        const xLeftChannel = Math.max(20, Math.min(rUl.left, rLl.left) - 35);
-        const xRightChannel = Math.min(W - 20, Math.max(rUr.right, rLr.right) + 35);
+        const xLeftChannel = Math.max(16, Math.min(rUl.left, rLl.left) - Math.max(20, W * 0.02));
+        const xRightChannel = Math.min(W - 16, Math.max(rUr.right, rLr.right) + Math.max(20, W * 0.02));
 
         // Niveles Y en el centro vertical de cada título
         const yUl = rUl.top + rUl.height / 2;
@@ -428,9 +426,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    let b2cLineProgress = { value: 1 };
+    let lineProgress = { value: 0 };
 
-    // Recálculo dinámico en tiempo real de la línea dorada persiguiendo la punta o creciendo orgánicamente
+    // Recálculo dinámico en tiempo real de la línea dorada creciendo orgánicamente y persiguiendo la punta
     function updateSlidingLine() {
         const cfg = SECTION_CONFIGS[activeSectionKey] || SECTION_CONFIGS["soluciones"];
         const svg = document.getElementById("circuit-svg");
@@ -440,16 +438,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const rTitle = cfg.titleElem.getBoundingClientRect();
         const rQ = singleQuartzImg.getBoundingClientRect();
+        const p = lineProgress.value;
 
         if (cfg.isBottomLeft || cfg.isBottomRight) {
             singleQuartzImg.style.opacity = "0";
 
-            const startX = cfg.isBottomLeft ? (rTitle.left + 15) : (rTitle.left + 25);
+            const startX = cfg.isBottomLeft ? (rTitle.left + 15) : (rTitle.right - 15);
             const startY = rTitle.top - 12;
             const yChannel = H * 0.08;
-            const endX = cfg.isBottomLeft ? (W * 0.66) : (W * 0.35);
+            const endX = cfg.isBottomLeft ? (W * 0.66) : (W * 0.34);
 
-            const p = b2cLineProgress.value;
             let currentX = startX;
             let currentY = startY;
             let pts = [[startX, startY]];
@@ -477,30 +475,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
             cfg.nodeEnd.setAttribute("cx", currentX);
             cfg.nodeEnd.setAttribute("cy", currentY);
-            cfg.nodeEnd.style.opacity = "1";
+            cfg.nodeEnd.style.opacity = (p > 0.05) ? "1" : "0";
             return;
         }
 
-        // Punto de inicio bajo el título correspondiente
-        const startX = cfg.isRightSide ? (rTitle.left + 15) : (rTitle.left + 25);
+        // --- SOLUCIONES Y METODOLOGÍA: DIBUJADO PROGRESIVO EN 3 TRAMOS ---
+        const startX = cfg.isRightSide ? (rTitle.left + 15) : (rTitle.right - 15);
         const startY = rTitle.bottom + 10;
+        const yChannel = startY + 24;
 
-        // Punta del cuarzo obtenida en tiempo real según el ratio específico de la sección
+        // Punta del cuarzo en tiempo real
         const currentTipX = rQ.left + rQ.width * cfg.tipXRatio;
         const currentTipY = rQ.top + rQ.height * cfg.tipYRatio;
 
-        // Canal horizontal pasando por debajo del header
-        const yChannel = startY + 24;
+        const L1 = 24; // Tramo 1 vertical hacia abajo
+        const L2 = Math.abs(currentTipX - startX); // Tramo 2 horizontal a través del viewport
+        const L3 = Math.max(0, currentTipY - yChannel); // Tramo 3 vertical directo a la punta
+        const totalL = L1 + L2 + L3;
 
-        // Trazado en L continua: inicio -> baja 24px -> corre horizontal a currentTipX -> baja vertical directo a la punta del cuarzo
-        const pts = [
-            [startX, startY],
-            [startX, yChannel],
-            [currentTipX, yChannel],
-            [currentTipX, currentTipY]
-        ];
+        const currentDist = p * totalL;
+        let pts = [[startX, startY]];
+        let headX = startX;
+        let headY = startY;
 
-        cfg.lineElem.setAttribute("d", "M " + pts.map(p => p[0] + " " + p[1]).join(" L "));
+        if (currentDist <= L1) {
+            headY = startY + currentDist;
+            pts.push([startX, headY]);
+        } else if (currentDist <= L1 + L2) {
+            const d2 = currentDist - L1;
+            const dirX = (currentTipX >= startX) ? 1 : -1;
+            headY = yChannel;
+            headX = startX + dirX * d2;
+            pts.push([startX, yChannel]);
+            pts.push([headX, yChannel]);
+        } else {
+            const d3 = currentDist - (L1 + L2);
+            headX = currentTipX;
+            headY = yChannel + d3;
+            pts.push([startX, yChannel]);
+            pts.push([currentTipX, yChannel]);
+            pts.push([currentTipX, headY]);
+        }
+
+        cfg.lineElem.setAttribute("d", "M " + pts.map(pt => pt[0] + " " + pt[1]).join(" L "));
         cfg.lineElem.style.strokeDasharray = "none";
         cfg.lineElem.style.strokeDashoffset = "0";
         cfg.lineElem.style.opacity = "1";
@@ -509,9 +526,9 @@ document.addEventListener("DOMContentLoaded", () => {
         cfg.nodeStart.setAttribute("cy", startY);
         cfg.nodeStart.style.opacity = "1";
 
-        cfg.nodeEnd.setAttribute("cx", currentTipX);
-        cfg.nodeEnd.setAttribute("cy", currentTipY);
-        cfg.nodeEnd.style.opacity = "1";
+        cfg.nodeEnd.setAttribute("cx", headX);
+        cfg.nodeEnd.setAttribute("cy", headY);
+        cfg.nodeEnd.style.opacity = (p > 0.04) ? "1" : "0";
     }
 
     function startQuartzSlideTransition(targetHref) {
@@ -519,17 +536,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (cfg.noQuartz) {
             singleQuartzImg.style.opacity = "0";
+            gsap.to(selectionVideo, { opacity: 0, duration: 0.25, ease: "power1.out" });
         } else {
             singleQuartzImg.style.opacity = "1";
+            gsap.to(selectionVideo, { opacity: 0, duration: 0.25, ease: "power1.out" });
         }
-        selectionVideo.style.opacity = "0";
 
         // Apagar líneas y nodos secundarios
         const secondaryLines = [lineUl, lineUr, lineLl, lineLr, nodeUlStart, nodeUlEnd, nodeUrStart, nodeUrEnd, nodeLlStart, nodeLlEnd, nodeLrStart, nodeLrEnd]
             .filter(el => el !== cfg.lineElem && el !== cfg.nodeStart && el !== cfg.nodeEnd);
         gsap.set(secondaryLines, { opacity: 0 });
 
-        b2cLineProgress.value = 0;
+        lineProgress.value = 0;
+
+        // Establecer origen de transformación homogéneo para el cuarzo
+        gsap.set(singleQuartzImg, { xPercent: -50, yPercent: 0, transformOrigin: "center bottom" });
 
         // Única línea temporal fluida (60fps continuous easing)
         const slideTL = gsap.timeline({
@@ -555,28 +576,46 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 0);
 
             // 2. Crecimiento orgánico de la línea (0 a 1) desplegándose hacia arriba y al canal horizontal
-            slideTL.to(b2cLineProgress, {
+            slideTL.to(lineProgress, {
                 value: 1,
-                duration: 1.15,
+                duration: 1.3,
                 ease: "power2.inOut"
-            }, 0.15);
+            }, 0.1);
         } else {
-            // Desplazamiento orgánico del cuarzo hacia la derecha o izquierda
+            // 1. Crecimiento orgánico de la línea dorada cruzando la pantalla
+            slideTL.to(lineProgress, {
+                value: 1,
+                duration: 1.35,
+                ease: "power2.inOut"
+            }, 0.05);
+
+            // 2. Desplazamiento orgánico del cuarzo hacia la derecha o izquierda
             slideTL.to(singleQuartzImg, {
                 x: window.innerWidth * cfg.targetXRatio,
                 y: window.innerHeight * cfg.targetYRatio,
                 scale: cfg.targetScale,
-                duration: 1.1,
+                duration: 1.35,
                 ease: "power2.inOut"
             }, 0);
         }
 
-        // Transición del logo: fade-out del logo negro centrado
+        // Transición del logo: fade-out del logo negro centrado y fade-in del logo dorado
         slideTL.to(logoPrincipal, {
             opacity: 0,
             duration: 0.45,
             ease: "power2.out"
         }, 0);
+
+        const goldLogoSol = document.getElementById("logo-gold-wrapper-soluciones");
+        const goldLogoMet = document.getElementById("logo-gold-wrapper-metodologia");
+        const targetGoldLogo = (activeSectionKey === "soluciones") ? goldLogoSol : (activeSectionKey === "metodologia" ? goldLogoMet : null);
+        if (targetGoldLogo) {
+            slideTL.to(targetGoldLogo, {
+                opacity: 1,
+                duration: 0.6,
+                ease: "power2.out"
+            }, 0.2);
+        }
     }
 
     function handOffToVideo(targetHref) {
@@ -592,17 +631,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 startQuartzSlideTransition(targetHref);
             };
 
-            // Disparar el deslice a los 1.4s de vídeo (mientras la aislación aún está en movimiento),
-            // eliminando cualquier "stop" o pausa estática en el centro.
+            // Disparar el deslice orgánico y el trazado de la línea a los 2.0s de vídeo
             const checkTime = () => {
-                if (selectionVideo.currentTime >= 1.9) {
+                if (selectionVideo.currentTime >= 2.0) {
                     selectionVideo.removeEventListener("timeupdate", checkTime);
                     triggerSlide();
                 }
             };
             selectionVideo.addEventListener("timeupdate", checkTime);
             selectionVideo.addEventListener("ended", triggerSlide, { once: true });
-            setTimeout(triggerSlide, 2100);
+            setTimeout(triggerSlide, 2400);
         }
         if (selectionVideo.readyState >= 2) swap();
         else selectionVideo.addEventListener("canplay", swap, { once: true });
@@ -663,7 +701,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 0);
         }
 
-        // 2) Retirar otras opciones y replegar sus líneas
+        // 2) Retirar otras opciones
         tl.to(others.map((g) => g.title), {
             opacity: 0,
             y: -6,
@@ -672,31 +710,19 @@ document.addEventListener("DOMContentLoaded", () => {
             stagger: 0.04
         }, 0.05);
 
-        others.forEach((g, i) => {
-            tl.to(g.nodes, { opacity: 0, duration: 0.2, ease: "none" }, 0.12 + i * 0.05);
+        // 3) Replegar y desvanecer todas las líneas iniciales del héroe limpiamente
+        CIRCUIT_GROUPS.forEach((g, i) => {
+            tl.to(g.nodes, { opacity: 0, duration: 0.2, ease: "none" }, 0.08 + i * 0.03);
             tl.to(g.line, {
-                strokeDashoffset: g.line.getTotalLength(),
-                duration: 0.55,
-                ease: "power2.inOut"
-            }, 0.12 + i * 0.05);
+                strokeDashoffset: g.line.getTotalLength ? g.line.getTotalLength() : 500,
+                opacity: 0,
+                duration: 0.35,
+                ease: "power2.in"
+            }, 0.08 + i * 0.03);
         });
 
-        // 3) Tratamiento de la línea y nodos de la opción seleccionada
-        if (cfg.isBottomLeft || cfg.isBottomRight) {
-            // Comprimir/replegar la línea inicial del héroe antes del nuevo despliegue
-            tl.to(group.nodes, { opacity: 0, duration: 0.2, ease: "none" }, 0.1);
-            tl.to(group.line, {
-                strokeDashoffset: group.line.getTotalLength(),
-                duration: 0.45,
-                ease: "power2.in"
-            }, 0.1);
-        } else {
-            tl.to(group.nodes, { opacity: 1, duration: 0.2, ease: "none" }, 0.1);
-            tl.to(group.line, { strokeDashoffset: 0, duration: 0.2, ease: "power2.out" }, 0.1);
-        }
-
         // 4) Relevo al vídeo de aislación de cuarzo
-        tl.call(() => handOffToVideo(targetHref), null, 0.6);
+        tl.call(() => handOffToVideo(targetHref), null, 0.5);
     }
 
     CIRCUIT_GROUPS.forEach((group) => {

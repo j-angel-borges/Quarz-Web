@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&family=Yellowtail&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -84,7 +84,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 1000;
+            z-index: 9999;
             opacity: 1 !important;
             transform: none !important;
             pointer-events: auto !important;
@@ -153,9 +153,24 @@
             transform-origin: center;
         }
 
-        .ring-1 { width: clamp(340px, 38vw, 560px); height: clamp(340px, 38vw, 560px); border-color: rgba(229, 224, 212, 0.5); }
-        .ring-2 { width: clamp(270px, 30vw, 440px); height: clamp(270px, 30vw, 440px); border-color: rgba(216, 206, 185, 0.6); }
-        .ring-3 { width: clamp(200px, 22vw, 320px); height: clamp(200px, 22vw, 320px); border-color: rgba(200, 188, 162, 0.8); border-width: 1.5px; }
+        .ring-1 {
+            width: clamp(340px, 38vw, 560px);
+            height: clamp(340px, 38vw, 560px);
+            border-color: rgba(229, 224, 212, 0.5);
+        }
+
+        .ring-2 {
+            width: clamp(270px, 30vw, 440px);
+            height: clamp(270px, 30vw, 440px);
+            border-color: rgba(216, 206, 185, 0.6);
+        }
+
+        .ring-3 {
+            width: clamp(200px, 22vw, 320px);
+            height: clamp(200px, 22vw, 320px);
+            border-color: rgba(200, 188, 162, 0.8);
+            border-width: 1.5px;
+        }
 
         .clic-circle {
             position: relative;
@@ -183,10 +198,23 @@
             background-color: #dfd8c6;
         }
 
-        body.dark-mode .ring { opacity: 0; pointer-events: none; }
-        body.dark-mode .ring-1 { transform: scale(2.2); }
-        body.dark-mode .ring-2 { transform: scale(2.7); }
-        body.dark-mode .ring-3 { transform: scale(3.2); }
+        body.dark-mode .ring {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.dark-mode .ring-1 {
+            transform: scale(2.2);
+        }
+
+        body.dark-mode .ring-2 {
+            transform: scale(2.7);
+        }
+
+        body.dark-mode .ring-3 {
+            transform: scale(3.2);
+        }
+
         body.dark-mode .clic-circle {
             opacity: 0;
             pointer-events: none;
@@ -200,11 +228,16 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 900;
+            z-index: 60;
         }
 
-        body.dark-mode .circuit-path { stroke: rgba(255, 255, 255, 0.3) !important; }
-        body.dark-mode .circuit-node { fill: #ffffff !important; }
+        body.dark-mode .circuit-path {
+            stroke: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        body.dark-mode .circuit-node {
+            fill: #ffffff !important;
+        }
 
         /* Top Blur Overlay */
         .top-blur-overlay {
@@ -212,11 +245,11 @@
             top: 0;
             left: 0;
             width: 100vw;
-            height: 9vh;
+            height: 8vh;
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.5) 70%, transparent 100%);
-            z-index: 850;
+            z-index: 40;
             pointer-events: none;
             transition: background 1s ease;
         }
@@ -267,7 +300,7 @@
             width: clamp(600px, 80vw, 1200px);
             height: 700px;
             background: radial-gradient(circle at 30% 30%, rgba(194, 244, 231, 0.12) 0%, transparent 55%),
-                        radial-gradient(circle at 70% 60%, rgba(214, 200, 250, 0.16) 0%, transparent 60%);
+                radial-gradient(circle at 70% 60%, rgba(214, 200, 250, 0.16) 0%, transparent 60%);
             filter: blur(80px);
             pointer-events: none;
             z-index: -1;
@@ -322,11 +355,12 @@
         }
 
         .showcase-header h2 {
-            font-family: var(--font-zentry-title);
-            font-size: clamp(1.9rem, 3.2vw, 2.7rem);
-            font-weight: 700;
+            font-family: 'Yellowtail', cursive;
+            font-size: clamp(2.4rem, 4vw, 3.8rem);
+            font-weight: 400;
             color: #ffffff;
             margin: 0 0 10px 0;
+            line-height: 1.1;
         }
 
         .showcase-header p {
@@ -828,14 +862,45 @@
             flex-shrink: 0;
         }
 
-        .icon-blue { background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); }
-        .icon-orange { background: rgba(249, 115, 22, 0.2); border: 1px solid rgba(249, 115, 22, 0.4); }
-        .icon-yellow { background: rgba(234, 179, 8, 0.2); border: 1px solid rgba(234, 179, 8, 0.4); }
-        .icon-mint { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); }
-        .icon-purple { background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.4); }
-        .icon-pink { background: rgba(236, 72, 153, 0.2); border: 1px solid rgba(236, 72, 153, 0.4); }
-        .icon-cyan { background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.4); }
-        .icon-red { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); }
+        .icon-blue {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .icon-orange {
+            background: rgba(249, 115, 22, 0.2);
+            border: 1px solid rgba(249, 115, 22, 0.4);
+        }
+
+        .icon-yellow {
+            background: rgba(234, 179, 8, 0.2);
+            border: 1px solid rgba(234, 179, 8, 0.4);
+        }
+
+        .icon-mint {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .icon-purple {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        .icon-pink {
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+        }
+
+        .icon-cyan {
+            background: rgba(6, 182, 212, 0.2);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .icon-red {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
 
         .benefit-card h4 {
             font-family: var(--font-zentry-title);
@@ -907,26 +972,39 @@
             text-transform: uppercase;
             font-family: var(--font-heading);
         }
+
+
+        body.dark-mode
     </style>
 </head>
 
 <body class="initial-state">
+    
 
-    <div class="stage-subpage">
+
+    <!-- Overlays de Difuminado para respetar márgenes -->
+    <div class="top-blur-overlay"></div>
+<header class="sub-header-right">
+            <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+                <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold"
+                    id="header-logo-img">
+                <span class="logo-arrow">&gt;</span>
+            </a>
+        </header>
+
+
+        <!-- Título Esquina Inferior Izquierda -->
+        <a href="index.html" class="subpage-title-ll" id="sub-title">SOLUCIONES PARA PERSONAS</a>
+<div class="stage-subpage">
 
         <!-- Canvas de Estrellas -->
         <canvas id="space-canvas"></canvas>
 
         <!-- Overlay de Difuminado Superior -->
-        <div class="top-blur-overlay"></div>
+
 
         <!-- Header Logo con Flecha a la Derecha (QUARZ >) -->
-        <header class="sub-header-right">
-            <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
-                <img src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold" id="header-logo-img">
-                <span class="logo-arrow">&gt;</span>
-            </a>
-        </header>
+        
 
         <!-- Elemento Central Inicial: Anillos Concéntricos + Botón CLIC -->
         <div class="b2c-target-container">
@@ -935,16 +1013,6 @@
             <div class="ring ring-3"></div>
             <div class="clic-circle" id="trigger-clic">CLIC</div>
         </div>
-
-        <!-- Título Esquina Inferior Izquierda -->
-        <a href="index.html" class="subpage-title-ll" id="sub-title">SOLUCIONES PARA PERSONAS</a>
-
-        <!-- Línea de Circuito SVG Conectando Abajo-Izquierda con la Cabecera -->
-        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-            <path id="sub-line" class="circuit-path" d="" />
-            <circle id="sub-node-start" class="circuit-node" r="3.5" style="opacity:1;" />
-            <circle id="sub-node-end" class="circuit-node" r="3.5" style="opacity:1;" />
-        </svg>
 
     </div>
 
@@ -960,7 +1028,8 @@
                 Zentry<span class="gradient-text">OS</span>
             </h1>
             <p class="zentry-manifesto-quote">
-                Abordar una de las mayores crisis de nuestra era: la obsolescencia del sistema educativo tradicional y la captura algorítmica de la atención infantil, construyendo sistemas operativos que hoy más que nunca son viables para ingenieros y equipos bien organizados.
+                El sistema educativo tradicional no ha cambiado en 200 años y los entornos digitales lo único que han
+                hecho es aprovecharse de la atención infantil.
             </p>
         </section>
 
@@ -969,8 +1038,8 @@
              ======================================================== -->
         <section class="feature-video-showcase" id="video-showcase-section">
             <div class="showcase-header">
-                <h2>Funcionalidades Integradas de Nueva Generación</h2>
-                <p>Micro-interacciones fluidas, inteligencia socrática y gobernanza activa de la atención.</p>
+                <h2>Una nueva generación de herramientas Inteligentes</h2>
+                <p>Una nueva forma de desarrollar el potencial de niños y adolescentes.</p>
             </div>
 
             <!-- Viewport del Carrusel -->
@@ -981,16 +1050,18 @@
                         <!-- CARD 1: Isla Dinámica Reactiva (Motion Graphic) -->
                         <article class="feature-card is-active" data-slide="0">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_dynamic_intelligence_poster.webp" alt="Inteligencia en Isla Dinámica" class="card-poster" />
+                                <img src="media/mockups/zentry_dynamic_intelligence_poster.webp"
+                                    alt="Inteligencia en Isla Dinámica" class="card-poster" />
                                 <video class="card-video" muted playsinline loop preload="metadata">
                                     <source src="media/mockups/zentry_dynamic_intelligence.mp4" type="video/mp4" />
                                 </video>
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Núcleo de Asistencia</span>
-                                <h3 class="card-headline">Inteligencia en Isla Dinámica</h3>
+                                <span class="card-tag">Asistencia</span>
+                                <h3 class="card-headline">Isla Dinámica Inteligente</h3>
                                 <p class="card-description">
-                                    Micro-interacciones reactivas en tiempo real. Asistencia proactiva, resúmenes pedagógicos y tutoría por voz con el método socrático sin interrumpir el flujo de aprendizaje.
+                                    Micro-interacciones en tiempo real. Asistencia proactiva, resúmenes
+                                    pedagógicos y tutoría por voz.
                                 </p>
                             </div>
                         </article>
@@ -998,13 +1069,16 @@
                         <!-- CARD 2: Peticiones Contextuales en Isla Dinámica -->
                         <article class="feature-card" data-slide="1">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_dynamic_island_request.png" alt="Tutor Socrático en Tiempo Real" class="card-poster" style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
+                                <img src="media/mockups/zentry_dynamic_island_request.png"
+                                    alt="Tutor Socrático en Tiempo Real" class="card-poster"
+                                    style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Tutoría Contextual</span>
-                                <h3 class="card-headline">Peticiones y Asistencia Viva</h3>
+                                <span class="card-tag">Asistente</span>
+                                <h3 class="card-headline">Tutoría Viva</h3>
                                 <p class="card-description">
-                                    Notificaciones de cristal esmerilado con resúmenes de estudio automáticos, preguntas de autoevaluación y acceso por voz instantáneo al tutor de IA.
+                                    Resúmenes de estudio automáticos, preguntas
+                                    de autoevaluación y acceso por voz instantáneo al tutor IA.
                                 </p>
                             </div>
                         </article>
@@ -1012,13 +1086,16 @@
                         <!-- CARD 3: App Drawer Espacioso -->
                         <article class="feature-card" data-slide="2">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_app_drawer_fisheye.png" alt="Lanzador Espacial Háptico" class="card-poster" style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
+                                <img src="media/mockups/zentry_app_drawer_fisheye.png" alt="Lanzador Espacial Háptico"
+                                    class="card-poster"
+                                    style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Ergonomía Cognitiva</span>
-                                <h3 class="card-headline">Lanzador Espacial Háptico</h3>
+                                <span class="card-tag">Ergonomía</span>
+                                <h3 class="card-headline">Microapps especializadas</h3>
                                 <p class="card-description">
-                                    Navegación radial minimalista con esferas de cristal líquido espaciadas. Cero saturación visual ni estímulos dopamínicos para encontrar microapps de inmediato.
+                                    Un entorno de aplicaciones de creacion para balancear el consumo de algoritmos
+                                    nocivos.
                                 </p>
                             </div>
                         </article>
@@ -1026,13 +1103,16 @@
                         <!-- CARD 4: Microapp Z-Art AI -->
                         <article class="feature-card" data-slide="3">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_zart_showcase.png" alt="De Boceto a Obra Maestra con Z-Art" class="card-poster" style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
+                                <img src="media/mockups/zentry_zart_showcase.png"
+                                    alt="De Boceto a Obra Maestra con Z-Art" class="card-poster"
+                                    style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Microapp Creativa</span>
-                                <h3 class="card-headline">De Boceto a 3D con Z-Art</h3>
+                                <span class="card-tag">Microapps</span>
+                                <h3 class="card-headline">De idea a creación</h3>
                                 <p class="card-description">
-                                    Algoritmos generativos que transforman bocetos infantiles en espectaculares modelos 3D, canalizando el tiempo de pantalla hacia la creación artística activa.
+                                    Algoritmos generativos que transforman bocetos infantiles en espectaculares modelos
+                                    3D, aplicaciones o experiencias hacia la creación artística activa.
                                 </p>
                             </div>
                         </article>
@@ -1040,13 +1120,16 @@
                         <!-- CARD 5: Microapp Study Assistant -->
                         <article class="feature-card" data-slide="4">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_study_assistant_showcase.png" alt="Tutor Socrático de Estudio" class="card-poster" style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
+                                <img src="media/mockups/zentry_study_assistant_showcase.png"
+                                    alt="Tutor Socrático de Estudio" class="card-poster"
+                                    style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Microapp de Estudio</span>
-                                <h3 class="card-headline">Study Assistant Socrático</h3>
+                                <span class="card-tag">Microapps</span>
+                                <h3 class="card-headline">Study Assistant</h3>
                                 <p class="card-description">
-                                    Acompañamiento escolar que guía paso a paso con preguntas de razonamiento, diagramas interactivos y exportación directa a Google Docs oficial.
+                                    Acompañamiento escolar que guía paso a paso con preguntas de razonamiento, diagramas
+                                    interactivos y exportación directa.
                                 </p>
                             </div>
                         </article>
@@ -1054,13 +1137,17 @@
                         <!-- CARD 6: Microapp Calc-Chat -->
                         <article class="feature-card" data-slide="5">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_calc_chat_showcase.png" alt="Calc-Chat Matemáticas & Graficador" class="card-poster" style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
+                                <img src="media/mockups/zentry_calc_chat_showcase.png"
+                                    alt="Calc-Chat Matemáticas & Graficador" class="card-poster"
+                                    style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Microapp Matemática</span>
-                                <h3 class="card-headline">Calc-Chat & Graficador Dinámico</h3>
+                                <span class="card-tag">Microapps
+                                </span>
+                                <h3 class="card-headline">Calcular.ia</h3>
                                 <p class="card-description">
-                                    Calculadora comprensiva con resolución algebraica paso a paso, curvas 2D interactivas en neón menta/lavanda y botón flotante 'Ask AI' para consultas lógicas.
+                                    Calculadora comprensiva con resolución algebraica paso a paso, curvas 2D
+                                    interactivas y Asistencia para consultas lógicas.
                                 </p>
                             </div>
                         </article>
@@ -1068,13 +1155,16 @@
                         <!-- CARD 7: Microapp Lente Zentry -->
                         <article class="feature-card" data-slide="6">
                             <div class="card-media-stage">
-                                <img src="media/mockups/zentry_lens_showcase.png" alt="Lente Zentry Explorador Científico" class="card-poster" style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
+                                <img src="media/mockups/zentry_lens_showcase.png"
+                                    alt="Lente Zentry Explorador Científico" class="card-poster"
+                                    style="position:relative; z-index:2; object-fit:cover; width:100%; height:100%;" />
                             </div>
                             <div class="card-content-bottom">
-                                <span class="card-tag">Microapp de Visión</span>
-                                <h3 class="card-headline">Lente Zentry: Explorador Científico</h3>
+                                <span class="card-tag">microapps</span>
+                                <h3 class="card-headline">Lente Zentry</h3>
                                 <p class="card-description">
-                                    Cámara interactiva con retícula de escaneo en tiempo real, fichas holográficas de identificación botánica y retos socráticos para aprender del entorno físico.
+                                    Cámara interactiva con retícula de identificación en tiempo real y desafíos
+                                    socráticos.
                                 </p>
                             </div>
                         </article>
@@ -1086,7 +1176,9 @@
             <!-- Barra de Controles y Navegación -->
             <div class="carousel-controls-bar">
                 <button class="carousel-arrow-btn" id="carousel-prev-btn" aria-label="Anterior">
-                    <svg viewBox="0 0 24 24"><polygon points="15,18 9,12 15,6"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <polygon points="15,18 9,12 15,6" />
+                    </svg>
                 </button>
 
                 <div class="carousel-dots-container" id="carousel-dots-wrap">
@@ -1094,13 +1186,16 @@
                 </div>
 
                 <button class="carousel-arrow-btn" id="carousel-next-btn" aria-label="Siguiente">
-                    <svg viewBox="0 0 24 24"><polygon points="9,18 15,12 9,6"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <polygon points="9,18 15,12 9,6" />
+                    </svg>
                 </button>
 
-                <button class="carousel-playback-btn" id="carousel-play-toggle" aria-label="Pausar o reproducir carrusel">
+                <button class="carousel-playback-btn" id="carousel-play-toggle"
+                    aria-label="Pausar o reproducir carrusel">
                     <svg viewBox="0 0 24 24" id="play-pause-icon">
-                        <rect x="6" y="4" width="4" height="16"/>
-                        <rect x="14" y="4" width="4" height="16"/>
+                        <rect x="6" y="4" width="4" height="16" />
+                        <rect x="14" y="4" width="4" height="16" />
                     </svg>
                 </button>
             </div>
@@ -1115,31 +1210,46 @@
             </div>
 
             <div class="pillars-grid">
-                
+
                 <!-- Pilar 01 -->
                 <div class="pillar-card">
+                    <div class="card-media-stage" style="width:100%; aspect-ratio:16/10; border-radius:14px; overflow:hidden; margin-bottom:22px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/renders/ui_dynamic_island.png" alt="El Escudo Dopamínico" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-number">PILAR // 01</div>
                     <h3>El Escudo Dopamínico</h3>
                     <p>
-                        De la retención algorítmica a la soberanía cognitiva. Eliminamos los loops adictivos de plataformas de micro-videos y videojuegos predadores, devolviendo al niño el control de su atención y concentración profunda.
+                        De la retención algorítmica a la soberanía cognitiva. Eliminamos los loops adictivos de
+                        plataformas de micro-videos y videojuegos predadores, devolviendo al niño el control de su
+                        atención y concentración profunda.
                     </p>
                 </div>
 
                 <!-- Pilar 02 -->
                 <div class="pillar-card">
+                    <div class="card-media-stage" style="width:100%; aspect-ratio:16/10; border-radius:14px; overflow:hidden; margin-bottom:22px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/renders/ui_socratic_tutor.png" alt="Matriz de IA Conectada" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-number">PILAR // 02</div>
                     <h3>Matriz de IA Conectada</h3>
                     <p>
-                        Un tutor socrático impulsado por Vertex AI (Gemini) conectado de forma nativa a todo el sistema. Permite al menor interactuar por voz, construir microapps intuitivas y dominar herramientas reales de Google Workspace.
+                        Un tutor socrático impulsado por Vertex AI (Gemini) conectado de forma nativa a todo el sistema.
+                        Permite al menor interactuar por voz, construir microapps intuitivas y dominar herramientas
+                        reales de Google Workspace.
                     </p>
                 </div>
 
                 <!-- Pilar 03 -->
                 <div class="pillar-card">
+                    <div class="card-media-stage" style="width:100%; aspect-ratio:16/10; border-radius:14px; overflow:hidden; margin-bottom:22px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center;">
+                        <img src="media/renders/zentry_parental_laptop_mockup.png" alt="El Vínculo Familiar" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;">
+                    </div>
                     <div class="pillar-number">PILAR // 03</div>
                     <h3>El Vínculo Familiar</h3>
                     <p>
-                        Información para conectar, nunca para vigilar. Un panel para padres que detecta patrones de talento, intereses genuinos y fortalezas de aprendizaje, brindando puntos de partida para conversaciones significativas.
+                        Información para conectar, nunca para vigilar. Un panel para padres que detecta patrones de
+                        talento, intereses genuinos y fortalezas de aprendizaje, brindando puntos de partida para
+                        conversaciones significativas.
                     </p>
                 </div>
 
@@ -1150,31 +1260,36 @@
              SECCIÓN PARENTAL DASHBOARD: LAYOUT 2 COLUMNAS + CARRUSEL
              ======================================================== -->
         <section class="parental-showcase-section" id="parental-dashboard">
-            
+
             <!-- Cabecera Principal -->
             <header class="parental-header">
-                <span class="dashboard-badge">GOBERNANZA BILATERAL // PAZ MENTAL</span>
+                <span class="dashboard-badge">BENEFICIO BILATERAL</span>
                 <h2>Paz Mental para Padres.<br>Libertad Guiada para Hijos.</h2>
                 <p>
-                    La consola de mando y telemetría de ZentryOS. Diseñada para cuidar y conectar en el hogar, nunca para espiar.
+                    La consola de mando de ZentryOS. Diseñada para cuidar y conectar en el hogar, conservando la
+                    privacidad del usuario.
                 </p>
             </header>
 
             <!-- Layout Principal de 2 Columnas -->
             <div class="parental-main-layout">
-                
+
                 <!-- Columna Izquierda: Carrusel Vertical de 8 Beneficios -->
                 <div class="parental-benefits-col">
-                    
+
                     <!-- Barra de Controles del Carrusel de Beneficios -->
                     <div class="benefits-controls-header">
-                        <span class="benefits-counter" id="benefits-counter-text">BENEFICIOS 1-3 // 8</span>
+                        <span class="benefits-counter" id="benefits-counter-text">BENEFICIOS</span>
                         <div class="benefits-nav-arrows">
                             <button class="benefit-arrow-btn" id="benefit-prev-btn" aria-label="Beneficio Anterior">
-                                <svg viewBox="0 0 24 24"><polygon points="12,8 6,14 18,14"/></svg>
+                                <svg viewBox="0 0 24 24">
+                                    <polygon points="12,8 6,14 18,14" />
+                                </svg>
                             </button>
                             <button class="benefit-arrow-btn" id="benefit-next-btn" aria-label="Siguiente Beneficio">
-                                <svg viewBox="0 0 24 24"><polygon points="12,16 6,10 18,10"/></svg>
+                                <svg viewBox="0 0 24 24">
+                                    <polygon points="12,16 6,10 18,10" />
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -1182,7 +1297,7 @@
                     <!-- Viewport de Tarjetas Apiladas -->
                     <div class="benefits-viewport">
                         <div class="benefits-track" id="benefits-track">
-                            
+
                             <!-- Beneficio 1 -->
                             <div class="benefit-card">
                                 <div class="benefit-card-top">
@@ -1190,7 +1305,8 @@
                                     <h4>Kill-Switch Remoto</h4>
                                 </div>
                                 <p>
-                                    Comandos C&C con latencia sub-segundo vía Firestore. Bloqueo pedagógico inmediato con mensaje personalizable desde cualquier navegador.
+                                    Bloqueo de seguridad inmediato
+                                    con mensaje personalizable desde cualquier navegador.
                                 </p>
                             </div>
 
@@ -1201,7 +1317,7 @@
                                     <h4>Radar de Curiosidad</h4>
                                 </div>
                                 <p>
-                                    Telemetría no invasiva impulsada por Vertex AI que mapea afinidades vocacionales en programación, astronomía y ciencias.
+                                    Telemetría no invasiva que mapea afinidades vocacionales, intereses y gustos.
                                 </p>
                             </div>
 
@@ -1212,7 +1328,8 @@
                                     <h4>Privacidad por Diseño</h4>
                                 </div>
                                 <p>
-                                    Cumplimiento estricto COPPA. Cero almacenamiento de chats o grabaciones. Información puramente formativa, sin espionaje invasivo.
+                                    Cumplimiento estricto COPPA. Cero almacenamiento de chats o grabaciones. Información
+                                    puramente formativa, sin espionaje invasivo.
                                 </p>
                             </div>
 
@@ -1223,7 +1340,8 @@
                                     <h4>Límites Circadianos</h4>
                                 </div>
                                 <p>
-                                    Transición progresiva a tonos cálidos y desconexión nocturna automática a las 20:30 PM para proteger el descanso cerebral.
+                                    Transición progresiva a tonos cálidos y desconexión nocturna automática a las 20:30
+                                    PM para proteger el descanso cerebral.
                                 </p>
                             </div>
 
@@ -1234,7 +1352,8 @@
                                     <h4>Allowlist de Microapps</h4>
                                 </div>
                                 <p>
-                                    Aprovisionamiento dinámico de herramientas educativas aprobadas y Google Workspace, aislando tiendas abiertas y navegación nociva.
+                                    Aprovisionamiento dinámico de herramientas educativas aprobadas y Google Workspace,
+                                    aislando tiendas abiertas y navegación nociva.
                                 </p>
                             </div>
 
@@ -1242,10 +1361,11 @@
                             <div class="benefit-card">
                                 <div class="benefit-card-top">
                                     <div class="benefit-icon-box icon-pink">🎯</div>
-                                    <h4>Presupuesto de Enfoque</h4>
+                                    <h4>Balance de Enfoque</h4>
                                 </div>
                                 <p>
-                                    Tiempo de pantalla recreativo desbloqueable mediante el cumplimiento de retos de estudio y resolución de problemas socráticos.
+                                    Gestión del tiempo que prioriza el aprendizaje profundo, con recompensas de acceso
+                                    recreativo ligadas a hitos académicos.
                                 </p>
                             </div>
 
@@ -1256,21 +1376,10 @@
                                     <h4>Diálogo en Familia</h4>
                                 </div>
                                 <p>
-                                    Resúmenes semanales que traducen la curiosidad del menor en sugerencias tangibles para conversaciones y proyectos en casa.
+                                    Resúmenes semanales que traducen la curiosidad del menor en sugerencias tangibles
+                                    para conversaciones y proyectos en casa.
                                 </p>
                             </div>
-
-                            <!-- Beneficio 8 -->
-                            <div class="benefit-card">
-                                <div class="benefit-card-top">
-                                    <div class="benefit-icon-box icon-red">⚡</div>
-                                    <h4>Modo Kiosk LockTask</h4>
-                                </div>
-                                <p>
-                                    Control a nivel de Device Owner en Android (testeado en Redmi 9): imposible de desinstalar, bypassear o burlar por reinicios.
-                                </p>
-                            </div>
-
                         </div>
                     </div>
 
@@ -1280,8 +1389,8 @@
                 <div class="parental-dashboard-display">
                     <div class="parental-dashboard-glow"></div>
                     <div class="parental-dashboard-frame">
-                        <img src="media/renders/zentry_parental_dashboard_mockup.png" 
-                             alt="ZentryOS Parental Dashboard Liquid Glass Interface">
+                        <img src="media/renders/zentry_parental_dashboard_mockup.png"
+                            alt="ZentryOS Parental Dashboard Liquid Glass Interface">
                     </div>
                 </div>
 
@@ -1291,7 +1400,7 @@
 
         <!-- FOOTER LIMPIO -->
         <footer class="showcase-footer">
-            QUARZ HOLDING — GOBERNANZA ACTIVA &copy; 2026
+            QUARZ GROUP &copy; 2026
         </footer>
 
     </main>
@@ -1349,7 +1458,7 @@
             window.addEventListener('resize', resize);
             resize();
 
-            for(let i=0; i<160; i++) {
+            for (let i = 0; i < 160; i++) {
                 stars.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
@@ -1370,7 +1479,7 @@
             function animate(timestamp) {
                 ctx.clearRect(0, 0, w, h);
                 ctx.fillStyle = 'white';
-                
+
                 const marginX = w * 0.04;
                 const marginY = h * 0.06;
 
@@ -1382,7 +1491,7 @@
                 if (isSpawning) {
                     const elapsed = timestamp - spawnStartTime;
 
-                    for(let s of stars) {
+                    for (let s of stars) {
                         if (!s.active && elapsed > s.activationDelay) {
                             s.active = true;
                         }
@@ -1392,13 +1501,13 @@
                             s.y += s.vy;
                             s.alpha += s.alphaDir * s.alphaSpeed;
 
-                            if(s.alpha >= s.maxAlpha) { s.alpha = s.maxAlpha; s.alphaDir = -1; }
-                            if(s.alpha <= 0.1) { s.alpha = 0.1; s.alphaDir = 1; }
+                            if (s.alpha >= s.maxAlpha) { s.alpha = s.maxAlpha; s.alphaDir = -1; }
+                            if (s.alpha <= 0.1) { s.alpha = 0.1; s.alphaDir = 1; }
 
-                            if(s.x < 0) s.x = w;
-                            if(s.x > w) s.x = 0;
-                            if(s.y < 0) s.y = h;
-                            if(s.y > h) s.y = 0;
+                            if (s.x < 0) s.x = w;
+                            if (s.x > w) s.x = 0;
+                            if (s.y < 0) s.y = h;
+                            if (s.y > h) s.y = 0;
 
                             if (s.x > marginX && s.x < w - marginX && s.y > marginY && s.y < h - marginY) {
                                 ctx.globalAlpha = s.alpha;
@@ -1504,7 +1613,7 @@
                     if (video) {
                         if (isActive) {
                             video.currentTime = 0;
-                            video.play().catch(() => {});
+                            video.play().catch(() => { });
                         } else {
                             video.pause();
                         }
@@ -1551,7 +1660,7 @@
                     this.playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
                     this.startAutoPlay();
                     const activeVideo = this.cards[this.currentIndex].querySelector('video');
-                    if (activeVideo) activeVideo.play().catch(() => {});
+                    if (activeVideo) activeVideo.play().catch(() => { });
                 } else {
                     this.playIcon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
                     this.stopAutoPlay();
@@ -1613,16 +1722,16 @@
         }
 
         // --- INTERACTIVIDAD DEL PREVIEW Y MODO OSCURO ---
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const btnClic = document.getElementById('trigger-clic');
             let carouselInstance = null;
             let benefitsCarouselInstance = null;
 
             if (btnClic) {
-                btnClic.addEventListener('click', function() {
+                btnClic.addEventListener('click', function () {
                     document.body.classList.remove('initial-state');
                     document.body.classList.add('dark-mode');
-                    
+
                     const logo = document.getElementById('header-logo-img');
                     if (logo) {
                         logo.style.opacity = 0;
@@ -1656,6 +1765,14 @@
         });
     </script>
 
+
+
+        <!-- Línea de Circuito SVG Conectando Abajo-Izquierda con la Cabecera -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path" d="" />
+            <circle id="sub-node-start" class="circuit-node" r="3.5" style="opacity:1;" />
+            <circle id="sub-node-end" class="circuit-node" r="3.5" style="opacity:1;" />
+        </svg>
 </body>
 
 </html>

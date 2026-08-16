@@ -91,7 +91,7 @@
             text-transform: uppercase;
             color: var(--text-black);
             text-decoration: none;
-            z-index: 100;
+            z-index: 9999;
             pointer-events: auto;
             transition: color 0.3s ease, letter-spacing 0.3s ease;
         }
@@ -108,7 +108,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 100;
+            z-index: 9999;
             pointer-events: auto !important;
         }
 
@@ -140,11 +140,12 @@
             bottom: 0;
             transform: translateX(-50%) translateX(55vw) translateY(2vh) scale(0.62);
             transform-origin: center bottom;
-            width: min(88vw, 108vh);
-            max-width: 68vw;
-            max-height: 88vh;
+            width: min(88vw, 118vh);
+            max-width: 88vw;
+            max-height: 92vh;
+            aspect-ratio: 1 / 1;
             height: auto;
-            margin-bottom: -12vh;
+            margin-bottom: -6vh;
             object-fit: contain;
             mix-blend-mode: multiply;
             z-index: 2;
@@ -160,7 +161,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 5;
+            z-index: 60;
         }
 
         .circuit-path-sub {
@@ -288,8 +289,15 @@
         }
 
         @keyframes bounceDown {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
         }
 
         /* ------------------------------------------------------------------
@@ -609,31 +617,43 @@
             .page-content-wrapper {
                 padding-top: 16vh;
             }
+
             .subpage-quartz {
                 opacity: 0.2;
                 transform: translateX(-50%) translateY(12vh) scale(0.5);
             }
+
             .manifesto-dark-box {
                 padding: 40px 28px;
             }
+        }
+
+        /* Overlay de Difuminado (Márgenes) */
+        .top-blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 10vh;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+            z-index: 40;
+            pointer-events: none;
+            transition: background 1s ease;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Overlays de Difuminado para respetar márgenes -->
+    <div class="top-blur-overlay"></div>
     <!-- Escenario fijo de fondo con el cuarzo y circuitos -->
     <div class="stage-subpage">
         <!-- Cuarzo Solo a la Derecha -->
         <img id="sub-quartz-img" src="media/images/cuarzo_soluciones_para_empresas.png" alt="Cuarzo Soluciones"
             class="subpage-quartz">
-
-        <!-- Línea de Circuito SVG Conectando el Título con el Cuarzo -->
-        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-            <path id="sub-line" class="circuit-path-sub" d="" />
-            <circle id="sub-node-start" class="circuit-node-sub" r="3.5" />
-            <circle id="sub-node-end" class="circuit-node-sub" r="3.5" />
-        </svg>
     </div>
 
     <!-- Título en la esquina superior izquierda (Idéntico a index.html) -->
@@ -654,139 +674,148 @@
             <!-- SECCIÓN 1: HERO NARRATIVO Y PREMISA FUNDACIONAL -->
             <section class="hero-statement-section">
                 <div class="terminal-badge">
-                    <span>AI-FIRST ARCHITECTURE // CONTEXT ENGINEERING</span>
+                    <span>ARQUITECTURA AI-FIRST</span>
                 </div>
 
                 <h1 class="main-hero-title">
-                    La creación de software cambió.<br>
-                    Las estructuras deben replantearse <span class="gold-highlight">desde la raíz.</span>
+                    El software de tu empresa es obsoleto.<br>
+                    si no usas Herramientas <span class="gold-highlight"> Inteligentes.</span>
                 </h1>
-
-                <p class="hero-lead-text">
-                    La transformación tecnológica global exige un orden estratégico fundamental. No se trata de incorporar herramientas aisladas, sino de rediseñar el organigrama operativo bajo una arquitectura <strong>AI-First</strong> donde los agentes autónomos comprendan a cabalidad cada vertical, proyecto y flujo de tu organización.
-                </p>
 
                 <div class="hero-manifesto-box">
                     <p>
-                        &gt; "Tener herramientas que entiendan a profundidad un negocio depende estrictamente de la capacidad humana para organizar directorios, fuentes de verdad (SSOT) y repositorios bien contextualizados, eliminando la fricción de raíz."
+                        "Tener herramientas que entiendan a profundidad un negocio depende estrictamente de la
+                        capacidad humana para organizar directorios, fuentes de verdad (SSOT) y repositorios bien
+                        contextualizados, eliminando la fricción de raíz."
                     </p>
                 </div>
 
-                <div class="scroll-invitation">
-                    <span>ARQUITECTURA DE IMPLEMENTACIÓN</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
-                    </svg>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 2: SHOWCASE CAROUSEL DEL SERVICIO ÚNICO -->
-            <section class="feature-video-showcase">
-                <div class="showcase-header">
-                    <span class="section-tag-mono">01 // ARQUITECTURA DE SERVICIO</span>
-                    <h2 class="section-headline">Reestructuración Operativa AI-First & Orquestación Agéntica</h2>
-                </div>
-
-                <!-- Carrusel Interactivo -->
-                <div class="carousel-outer-container">
-                    <div class="carousel-viewport-wrapper">
-                        <div class="carousel-track" id="featureCarouselTrack">
-
-                            <!-- Tarjeta 1: SSOT Canon & Context Engineering -->
-                            <div class="feature-card is-active" data-index="0">
-                                <div class="card-media-stage">
-                                    <img src="media/images/quarz_ssot_context_engine.png" alt="SSOT Context Engine" class="card-media-img">
-                                </div>
-                                <div class="card-content-bottom">
-                                    <span class="card-tag">PILAR // 01</span>
-                                    <h3 class="card-headline">SSOT Canon & Context Engineering</h3>
-                                    <p class="card-description">
-                                        Taxonomías vivas y memorias de negocio estructuradas para eliminar la alucinación agéntica de raíz.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Tarjeta 2: Deterministic Multi-Agent Swarms -->
-                            <div class="feature-card" data-index="1">
-                                <div class="card-media-stage">
-                                    <img src="media/images/quarz_agent_swarm_telemetry.png" alt="Multi-Agent Swarm" class="card-media-img">
-                                </div>
-                                <div class="card-content-bottom">
-                                    <span class="card-tag">PILAR // 02</span>
-                                    <h3 class="card-headline">Enjambres Multi-Agente & Tool Calling</h3>
-                                    <p class="card-description">
-                                        Orquestación jerárquica con llamadas a herramientas en sandboxes seguros y ejecución determinista.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Tarjeta 3: Cross-Department Unified Ingestion -->
-                            <div class="feature-card" data-index="2">
-                                <div class="card-media-stage">
-                                    <img src="media/images/quarz_cross_department_matrix.png" alt="Cross Department Sync" class="card-media-img">
-                                </div>
-                                <div class="card-content-bottom">
-                                    <span class="card-tag">PILAR // 03</span>
-                                    <h3 class="card-headline">Interconexión de Áreas sin Fricción</h3>
-                                    <p class="card-description">
-                                        Sincronización transversal entre producto, operaciones, desarrollo y dirección, preservando la cultura.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Tarjeta 4: Continuous Adversarial Audit -->
-                            <div class="feature-card" data-index="3">
-                                <div class="card-media-stage">
-                                    <img src="media/images/quarz_adversarial_guardrails.png" alt="Adversarial Audit" class="card-media-img">
-                                </div>
-                                <div class="card-content-bottom">
-                                    <span class="card-tag">PILAR // 04</span>
-                                    <h3 class="card-headline">Auditoría Continua & Guardrails</h3>
-                                    <p class="card-description">
-                                        Verificación adversarial y monitorización proactiva para garantizar la pureza de cada entregable.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
+                <!-- SECCIÓN 2: SHOWCASE CAROUSEL DEL SERVICIO ÚNICO -->
+                <section class="feature-video-showcase">
+                    <div class="showcase-header">
+                        <span class="section-tag-mono">01 //SERVICIO</span>
+                        <h2 class="section-headline">Implementacion de sistemas operativos</h2>
                     </div>
 
-                    <!-- Controles del Carrusel -->
-                    <div class="carousel-controls-bar">
-                        <button class="carousel-arrow-btn" id="prevCardBtn" aria-label="Anterior">
-                            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                        </button>
-                        <div class="carousel-dots-container" id="carouselDots">
-                            <span class="carousel-dot is-active" data-dot="0"></span>
-                            <span class="carousel-dot" data-dot="1"></span>
-                            <span class="carousel-dot" data-dot="2"></span>
-                            <span class="carousel-dot" data-dot="3"></span>
-                        </div>
-                        <button class="carousel-arrow-btn" id="nextCardBtn" aria-label="Siguiente">
-                            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </section>
+                    <!-- Carrusel Interactivo -->
+                    <div class="carousel-outer-container">
+                        <div class="carousel-viewport-wrapper">
+                            <div class="carousel-track" id="featureCarouselTrack">
 
-            <!-- SECCIÓN 3: MANIFIESTO DE AUTORIDAD TÉCNICA EMPÍRICA (SIN CTA) -->
-            <section class="authority-manifesto-section">
-                <div class="manifesto-dark-box">
-                    <span class="manifesto-tag">AUTORIDAD EMPÍRICA // DÍA CERO</span>
-                    <h3 class="manifesto-quote">
-                        "No somos académicos teorizando en pizarras ni perfiles tradicionales adaptándose tarde. <span>Somos profesionales empíricos construyendo valor real desde el día cero.</span>"
-                    </h3>
-                    <p class="manifesto-body">
-                        La habilidad maestra para orquestar estos sistemas y estructurar el contexto organizacional es una disciplina que esta generación recién empieza a desarrollar. Quienes hemos experimentado, depurado e implementado estas herramientas a diario desde su génesis somos quienes poseemos la verdadera autoridad técnica para determinar su uso e implementación corporativa.
-                    </p>
-                    <div class="manifesto-footer">
-                        <div>
-                            <div class="manifesto-signature">QUARZ HOLDING & SYSTEMS</div>
-                            <div class="manifesto-sub-sig">AI-First Infrastructure & Context Engineering</div>
+                                <!-- Tarjeta 1: SSOT Canon & Context Engineering -->
+                                <div class="feature-card is-active" data-index="0">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_ssot_context_engine.png" alt="SSOT Context Engine"
+                                            class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 01</span>
+                                        <h3 class="card-headline">SSOT Canon & Context Engineering</h3>
+                                        <p class="card-description">
+                                            Taxonomías vivas y memorias de negocio estructuradas para eliminar la
+                                            alucinación agéntica de raíz.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 2: Deterministic Multi-Agent Swarms -->
+                                <div class="feature-card" data-index="1">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_agent_swarm_telemetry.png" alt="Multi-Agent Swarm"
+                                            class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 02</span>
+                                        <h3 class="card-headline">Enjambres Multi-Agente & Tool Calling</h3>
+                                        <p class="card-description">
+                                            Orquestación jerárquica con llamadas a herramientas en sandboxes seguros y
+                                            ejecución determinista.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 3: Cross-Department Unified Ingestion -->
+                                <div class="feature-card" data-index="2">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_cross_department_matrix.png"
+                                            alt="Cross Department Sync" class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 03</span>
+                                        <h3 class="card-headline">Interconexión de Áreas sin Fricción</h3>
+                                        <p class="card-description">
+                                            Sincronización transversal entre producto, operaciones, desarrollo y
+                                            dirección,
+                                            preservando la cultura.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 4: Continuous Adversarial Audit -->
+                                <div class="feature-card" data-index="3">
+                                    <div class="card-media-stage">
+                                        <img src="media/images/quarz_adversarial_guardrails.png" alt="Adversarial Audit"
+                                            class="card-media-img">
+                                    </div>
+                                    <div class="card-content-bottom">
+                                        <span class="card-tag">PILAR // 04</span>
+                                        <h3 class="card-headline">Auditoría Continua & Guardrails</h3>
+                                        <p class="card-description">
+                                            Verificación adversarial y monitorización proactiva para garantizar la
+                                            pureza de
+                                            cada entregable.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Controles del Carrusel -->
+                        <div class="carousel-controls-bar">
+                            <button class="carousel-arrow-btn" id="prevCardBtn" aria-label="Anterior">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                                </svg>
+                            </button>
+                            <div class="carousel-dots-container" id="carouselDots">
+                                <span class="carousel-dot is-active" data-dot="0"></span>
+                                <span class="carousel-dot" data-dot="1"></span>
+                                <span class="carousel-dot" data-dot="2"></span>
+                                <span class="carousel-dot" data-dot="3"></span>
+                            </div>
+                            <button class="carousel-arrow-btn" id="nextCardBtn" aria-label="Siguiente">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <!-- SECCIÓN 3: MANIFIESTO DE AUTORIDAD TÉCNICA EMPÍRICA (SIN CTA) -->
+                <section class="authority-manifesto-section">
+                    <div class="manifesto-dark-box">
+                        <h3 class="manifesto-quote">
+                            "No somos académicos, IA Bros, ni perfiles tradicionales adaptándose tarde.
+                            <span>Somos profesionales empíricos construyendo valor real desde el día cero.</span>"
+                        </h3>
+                        <p class="manifesto-body">
+                            La habilidad maestra para orquestar estos sistemas y estructurar el contexto organizacional
+                            es
+                            una disciplina que esta generación recién empieza a desarrollar. Quienes hemos
+                            experimentado,
+                            depurado e implementado estas herramientas a diario desde su génesis somos quienes poseemos
+                            la
+                            autoridad técnica para determinar su uso e implementación corporativa.
+                        </p>
+                        <div class="manifesto-footer">
+                            <div>
+                                <div class="manifesto-signature">QUARZ HOLDING</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
         </div>
     </div>
@@ -984,6 +1013,14 @@
         }
     </script>
 
+
+
+        <!-- Línea de Circuito SVG Conectando el Título con el Cuarzo -->
+        <svg id="circuit-svg-sub" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <path id="sub-line" class="circuit-path-sub" d="" />
+            <circle id="sub-node-start" class="circuit-node-sub" r="3.5" />
+            <circle id="sub-node-end" class="circuit-node-sub" r="3.5" />
+        </svg>
 </body>
 
 </html>
