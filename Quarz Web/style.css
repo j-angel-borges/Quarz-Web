@@ -367,55 +367,82 @@ header#main-header {
         display: none !important;
     }
 
-    .quartz-wrapper {
-        top: 58% !important;
-        transform: translate(-50%, -40%) !important;
-        width: min(90vw, 52vh) !important;
-        max-width: 90vw !important;
-        height: min(90vw, 52vh) !important;
+    /* Motion graphics en celular: manifiesto centrado arriba */
+    #mg-return-right, #mg-left {
+        width: 88vw !important;
+        left: 6vw !important;
+        right: auto !important;
+        top: 15vh !important;
     }
 
+    #mg-return-left, #mg-right {
+        display: none !important;
+    }
+
+    /* Cuarzo 3D en el centro de la brújula */
+    .quartz-wrapper {
+        top: 54% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: min(85vw, 42vh) !important;
+        max-width: 85vw !important;
+        height: min(85vw, 42vh) !important;
+    }
+
+    /* Tipografía pura, limpia, sin cajas ni bordes */
     .title-label {
-        font-size: clamp(0.58rem, 2.4vw, 0.70rem) !important;
-        letter-spacing: 0.6px !important;
-        padding: 5px 8px !important;
-        background: rgba(255, 255, 255, 0.88) !important;
-        border: 1px solid rgba(226, 222, 208, 0.9) !important;
-        border-radius: 6px !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
-        backdrop-filter: blur(8px) !important;
-        -webkit-backdrop-filter: blur(8px) !important;
+        font-family: var(--font-heading) !important;
+        font-weight: 700 !important;
+        font-size: clamp(0.68rem, 2.8vw, 0.82rem) !important;
+        letter-spacing: 1.2px !important;
+        color: var(--text-black) !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         white-space: nowrap !important;
         z-index: 70 !important;
+        text-align: center !important;
     }
 
-    /* Fila 1 de Titulares: Justo arriba del cuarzo */
-    #title-ul {
-        top: 92px !important;
-        left: 3vw !important;
-        right: auto !important;
-        bottom: auto !important;
-    }
-
-    #title-ur {
-        top: 92px !important;
-        right: 3vw !important;
-        left: auto !important;
-        bottom: auto !important;
-    }
-
-    /* Fila 2 de Titulares: Segunda línea arriba del cuarzo */
+    /* Disposición en Rombo / Brújula según mockup exacto (151024.png) */
+    /* 1. Norte: SOLUCIONES PARA PERSONAS */
     #title-ll {
-        top: 132px !important;
-        left: 3vw !important;
+        top: 47vh !important;
+        left: 50% !important;
         right: auto !important;
         bottom: auto !important;
+        transform: translateX(-50%) !important;
     }
 
-    #title-lr {
-        top: 132px !important;
-        right: 3vw !important;
+    /* 2. Oeste: METODOLOGÍA DE TRABAJO */
+    #title-ur {
+        top: 53.5vh !important;
+        left: 4vw !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        text-align: left !important;
+    }
+
+    /* 3. Este: SOLUCIONES PARA EMPRESAS */
+    #title-ul {
+        top: 53.5vh !important;
+        right: 4vw !important;
         left: auto !important;
         bottom: auto !important;
+        transform: none !important;
+        text-align: right !important;
+    }
+
+    /* 4. Sur: HUB DE PARTNERS */
+    #title-lr {
+        top: 60vh !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: translateX(-50%) !important;
     }
 }
