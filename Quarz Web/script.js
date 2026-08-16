@@ -46,45 +46,71 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     gsap.ticker.lagSmoothing(0);
 
-    // Frame Sequence Loader for 100% Offline & file:/// Protocol Compatibility
+    // Frame Sequence Loader with Progressive Staggered Loading & Memoization
     const numFrames = 56;
-    const framesP1 = [];
-    const framesP2 = [];
-    let loadedCount = 0;
+    const framesP1 = new Array(numFrames);
+    const framesP2 = new Array(numFrames);
+    let lastDrawnPhase = -1;
+    let lastDrawnIdx = -1;
 
-    function preloadFrames() {
-        for (let i = 1; i <= numFrames; i++) {
-            const numStr = String(i).padStart(3, '0');
+    function loadSingleFrame(phase, i) {
+        const numStr = String(i + 1).padStart(3, '0');
+        const img = new Image();
+        img.decoding = "async";
+        img.src = `media/frames/phase${phase}/f_${numStr}.jpg`;
+        img.onload = () => {
+            if (phase === 1 && i === 0 && lastDrawnIdx === -1) {
+                drawFrame(1, 0);
+            }
+        };
+        if (phase === 1) framesP1[i] = img;
+        else framesP2[i] = img;
+    }
 
-            // Phase 1 Frames
-            const img1 = new Image();
-            img1.src = `media/frames/phase1/f_${numStr}.jpg`;
-            img1.onload = checkLoaded;
-            framesP1.push(img1);
+    function preloadFramesProgressively() {
+        // 1. Cargar fotogramas iniciales inmediatamente para despliegue instantáneo (<50ms)
+        for (let i = 0; i < Math.min(8, numFrames); i++) {
+            loadSingleFrame(1, i);
+            loadSingleFrame(2, i);
+        }
 
-            // Phase 2 Frames
-            const img2 = new Image();
-            img2.src = `media/frames/phase2/f_${numStr}.jpg`;
-            img2.onload = checkLoaded;
-            framesP2.push(img2);
+        // 2. Cargar el resto progresivamente en lotes para evitar saturación de red y CPU
+        let nextIdx = 8;
+        function loadNextBatch() {
+            const batchSize = 6;
+            const limit = Math.min(nextIdx + batchSize, numFrames);
+            for (let i = nextIdx; i < limit; i++) {
+                loadSingleFrame(1, i);
+                loadSingleFrame(2, i);
+            }
+            nextIdx = limit;
+            if (nextIdx < numFrames) {
+                if ("requestIdleCallback" in window) {
+                    requestIdleCallback(loadNextBatch, { timeout: 200 });
+                } else {
+                    setTimeout(loadNextBatch, 30);
+                }
+            }
+        }
+
+        if ("requestIdleCallback" in window) {
+            requestIdleCallback(loadNextBatch, { timeout: 300 });
+        } else {
+            setTimeout(loadNextBatch, 50);
         }
     }
 
-    function checkLoaded() {
-        loadedCount++;
-        if (loadedCount === 1) {
-            // Draw initial frame immediately
-            drawFrame(1, 0);
-        }
-    }
-
-    preloadFrames();
+    preloadFramesProgressively();
 
     function drawFrame(phase, progress) {
         const frameIdx = Math.min(numFrames - 1, Math.max(0, Math.floor(progress * (numFrames - 1))));
+        if (lastDrawnPhase === phase && lastDrawnIdx === frameIdx) return;
+
         const img = (phase === 1) ? framesP1[frameIdx] : framesP2[frameIdx];
 
-        if (img && img.complete) {
+        if (img && img.complete && img.naturalWidth > 0) {
+            lastDrawnPhase = phase;
+            lastDrawnIdx = frameIdx;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
