@@ -49,31 +49,21 @@
             overflow-x: hidden;
         }
 
-        body.initial-state {
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        body.dark-mode {
+        body {
             background-color: #08080a;
             color: #ffffff;
             overflow-y: auto;
         }
 
-        /* Contenedor del escenario inicial */
+        /* Contenedor del escenario */
         .stage-subpage {
             position: fixed;
             inset: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #ffffff;
+            background-color: transparent;
             z-index: 1;
             pointer-events: none;
-            transition: background-color 1s ease;
-        }
-
-        body.dark-mode .stage-subpage {
-            background-color: transparent;
         }
 
         /* Header con logo dorado y flecha '>' a la derecha */
@@ -94,20 +84,14 @@
             height: clamp(28px, 3.5vh, 45px);
             width: auto;
             object-fit: contain;
-            transition: opacity 0.5s ease;
         }
 
         .logo-arrow {
             font-family: var(--font-heading);
             font-size: clamp(1.4rem, 2vw, 2.2rem);
             font-weight: 700;
-            color: var(--gold-circuit);
-            line-height: 1;
-            transition: color 1s ease;
-        }
-
-        body.dark-mode .logo-arrow {
             color: #ffffff;
+            line-height: 1;
         }
 
         /* Título en la esquina inferior izquierda */
@@ -120,14 +104,9 @@
             font-size: clamp(0.75rem, 1.1vw, 1.05rem);
             letter-spacing: 1.8px;
             text-transform: uppercase;
-            color: var(--text-black);
+            color: #ffffff;
             text-decoration: none;
             z-index: 950;
-            transition: color 1s ease;
-        }
-
-        body.dark-mode .subpage-title-ll {
-            color: #ffffff;
         }
 
         /* Diana concéntrica con botón central "CLIC" */
@@ -275,20 +254,13 @@
             position: relative;
             width: 100%;
             z-index: 10;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
-            padding: 16vh 4vw 14vh 4vw;
-            box-sizing: border-box;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        body.dark-mode #zentry-showcase {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            padding: 14vh 4vw 14vh 4vw;
+            box-sizing: border-box;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         /* Aurora Glow Effect de Fondo */
@@ -1037,42 +1009,25 @@
     </style>
 </head>
 
-<body class="initial-state">
-    
-
+<body>
 
     <!-- Overlays de Difuminado para respetar márgenes -->
     <div class="top-blur-overlay"></div>
-<header class="sub-header-right">
-            <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
-                <img decoding="async" src="media/logos/QUARZ_Logo_Dorado_Claro.png" alt="QUARZ" class="brand-logo-gold"
-                    id="header-logo-img">
-                <span class="logo-arrow">&gt;</span>
-            </a>
-        </header>
 
+    <header class="sub-header-right">
+        <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+            <img decoding="async" src="media/logos/QUARZ_Logo_Invertido.jpg" alt="QUARZ" class="brand-logo-gold"
+                id="header-logo-img">
+            <span class="logo-arrow">&gt;</span>
+        </a>
+    </header>
 
-        <!-- Título Esquina Inferior Izquierda -->
-        <a href="index.html" class="subpage-title-ll" id="sub-title">SOLUCIONES PARA PERSONAS</a>
-<div class="stage-subpage">
+    <!-- Título Esquina Inferior Izquierda -->
+    <a href="index.html" class="subpage-title-ll" id="sub-title">SOLUCIONES PARA PERSONAS</a>
 
+    <div class="stage-subpage">
         <!-- Canvas de Estrellas -->
         <canvas id="space-canvas"></canvas>
-
-        <!-- Overlay de Difuminado Superior -->
-
-
-        <!-- Header Logo con Flecha a la Derecha (QUARZ >) -->
-        
-
-        <!-- Elemento Central Inicial: Anillos Concéntricos + Botón CLIC -->
-        <div class="b2c-target-container">
-            <div class="ring ring-1"></div>
-            <div class="ring ring-2"></div>
-            <div class="ring ring-3"></div>
-            <div class="clic-circle" id="trigger-clic">CLIC</div>
-        </div>
-
     </div>
 
     <!-- ========================================================
@@ -1788,47 +1743,20 @@
             }
         }
 
-        // --- INTERACTIVIDAD DEL PREVIEW Y MODO OSCURO ---
+        // --- INICIALIZACIÓN INMEDIATA DEL SHOWCASE ---
         document.addEventListener("DOMContentLoaded", function () {
-            const btnClic = document.getElementById('trigger-clic');
-            let carouselInstance = null;
-            let benefitsCarouselInstance = null;
+            document.body.classList.add('show-stars');
+            initStars();
 
-            if (btnClic) {
-                btnClic.addEventListener('click', function () {
-                    document.body.classList.remove('initial-state');
-                    document.body.classList.add('dark-mode');
+            new AppleStyleCarousel();
+            new BenefitsVerticalCarousel();
 
-                    const logo = document.getElementById('header-logo-img');
-                    if (logo) {
-                        logo.style.opacity = 0;
-                        setTimeout(() => {
-                            logo.src = 'media/logos/QUARZ_Logo_Invertido.jpg';
-                            logo.style.opacity = 1;
-                        }, 500);
-                    }
-
-                    setTimeout(() => {
-                        document.body.classList.add('show-stars');
-                    }, 1200);
-
-                    // Animar la entrada del contenido Zentry e inicializar carruseles
-                    gsap.from("#zentry-showcase", {
-                        y: 40,
-                        duration: 1.2,
-                        ease: "power3.out",
-                        delay: 0.4,
-                        onComplete: () => {
-                            if (!carouselInstance) {
-                                carouselInstance = new AppleStyleCarousel();
-                            }
-                            if (!benefitsCarouselInstance) {
-                                benefitsCarouselInstance = new BenefitsVerticalCarousel();
-                            }
-                        }
-                    });
-                });
-            }
+            gsap.from("#zentry-showcase", {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
         });
     </script>
 
