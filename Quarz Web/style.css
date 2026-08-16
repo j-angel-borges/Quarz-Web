@@ -361,34 +361,61 @@ header#main-header {
     }
 }
 
-@media (max-width: 600px) {
-    .title-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.8px;
-        padding: 4px 6px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 4px;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
+/* --- AISLAMIENTO RESPONSIVE PARA CELULARES (<768px) --- */
+@media (max-width: 768px) {
+    #circuit-svg {
+        display: none !important;
     }
 
+    .quartz-wrapper {
+        top: 58% !important;
+        transform: translate(-50%, -40%) !important;
+        width: min(90vw, 52vh) !important;
+        max-width: 90vw !important;
+        height: min(90vw, 52vh) !important;
+    }
+
+    .title-label {
+        font-size: clamp(0.58rem, 2.4vw, 0.70rem) !important;
+        letter-spacing: 0.6px !important;
+        padding: 5px 8px !important;
+        background: rgba(255, 255, 255, 0.88) !important;
+        border: 1px solid rgba(226, 222, 208, 0.9) !important;
+        border-radius: 6px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        white-space: nowrap !important;
+        z-index: 70 !important;
+    }
+
+    /* Fila 1 de Titulares: Justo arriba del cuarzo */
     #title-ul {
-        top: 12vh;
-        left: 3vw;
+        top: 92px !important;
+        left: 3vw !important;
+        right: auto !important;
+        bottom: auto !important;
     }
 
     #title-ur {
-        top: 17vh;
-        right: 3vw;
+        top: 92px !important;
+        right: 3vw !important;
+        left: auto !important;
+        bottom: auto !important;
     }
 
+    /* Fila 2 de Titulares: Segunda línea arriba del cuarzo */
     #title-ll {
-        bottom: 18vh;
-        left: 3vw;
+        top: 132px !important;
+        left: 3vw !important;
+        right: auto !important;
+        bottom: auto !important;
     }
 
     #title-lr {
-        bottom: 13vh;
-        right: 3vw;
+        top: 132px !important;
+        right: 3vw !important;
+        left: auto !important;
+        bottom: auto !important;
     }
 }
