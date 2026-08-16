@@ -396,13 +396,13 @@
             font-weight: 400;
         }
 
-        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES (<768px) --- */
-        @media (max-width: 768px) {
+        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES Y TABLETS (<992px y <520px) --- */
+        @media (max-width: 992px), (max-height: 520px) {
             #opportunity {
-                padding: 14vh 5% 40px;
+                padding: 12vh 5% 40px;
             }
             #opportunity h2 {
-                font-size: clamp(1.6rem, 6vw, 2.2rem);
+                font-size: clamp(1.6rem, 5.5vw, 2.2rem);
             }
             #opportunity .subtitle {
                 font-size: 0.85rem;
@@ -692,8 +692,12 @@
                 { selector: ".p10", radius: 20, startAngle: 120 }
             ];
 
+            function isMobileOrLandscapePhone() {
+                return window.innerWidth <= 992 || window.innerHeight <= 520;
+            }
+
             function setInitialPositions() {
-                if (window.innerWidth <= 768) {
+                if (isMobileOrLandscapePhone()) {
                     gsap.set('.opportunity-point', { clearProps: 'top,left,transform' });
                     return;
                 }
@@ -728,7 +732,7 @@
                 repeat: -1,
                 paused: true,
                 onUpdate: function () {
-                    if (window.innerWidth <= 768) return;
+                    if (isMobileOrLandscapePhone()) return;
                     const currentAngle = this.targets()[0].angle;
                     points.forEach(point => {
                         const angleInRadians = (point.startAngle + currentAngle) * Math.PI / 180;
@@ -739,7 +743,7 @@
                 }
             });
             opportunityTimeline.call(() => {
-                if (window.innerWidth > 768) orbitAnimation.play();
+                if (!isMobileOrLandscapePhone()) orbitAnimation.play();
             });
 
             // --- ANIMACIÓN FLECHA DE SCROLL ---

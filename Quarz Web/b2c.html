@@ -973,40 +973,55 @@
             font-family: var(--font-heading);
         }
 
-        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES (<768px) --- */
-        @media (max-width: 768px) {
-            .section-header-pill h2 {
-                font-size: clamp(1.6rem, 6.5vw, 2.4rem);
-            }
+        /* --- AISLAMIENTO RESPONSIVE PARA CELULARES Y TABLETS (<1024px y <768px) --- */
+        @media (max-width: 1024px) {
             .feature-card {
-                flex: 0 0 280px;
-                min-width: 280px;
+                flex: 0 0 320px;
+                min-width: 320px;
             }
             .pillars-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .pillar-card {
-                padding: 24px 20px;
-            }
-            .parental-header h2 {
-                font-size: clamp(1.6rem, 6.5vw, 2.4rem);
+                gap: 20px;
             }
             .parental-main-layout {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px), (max-height: 520px) {
+            .section-header-pill h2 {
+                font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+            }
+            .feature-card {
+                flex: 0 0 260px;
+                min-width: 260px;
+            }
+            .pillars-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .pillar-card {
+                padding: 20px 16px;
+            }
+            .parental-header h2 {
+                font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+            }
+            .parental-main-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
             }
             .benefits-viewport {
                 height: auto;
             }
             .benefits-scroll-list {
-                gap: 12px;
+                gap: 10px;
             }
             .subpage-title-ll {
-                font-size: 0.72rem;
-                bottom: 4vh;
-                left: 5vw;
-                letter-spacing: 1px;
+                font-size: 0.7rem;
+                bottom: 3.5vh;
+                left: 4vw;
+                letter-spacing: 0.8px;
             }
         }
     </style>

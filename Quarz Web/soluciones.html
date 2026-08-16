@@ -615,58 +615,63 @@
            ------------------------------------------------------------------ */
         @media (max-width: 1024px) {
             .page-content-wrapper {
-                padding-top: 16vh;
-            }
-
-            .subpage-quartz {
-                opacity: 0.2;
-                transform: translateX(-50%) translateY(12vh) scale(0.5);
-            }
-
-            .manifesto-dark-box {
-                padding: 40px 28px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .page-content-wrapper {
                 padding: 14vh 5% 6vh 5%;
             }
 
             .hero-title {
-                font-size: clamp(1.6rem, 6.5vw, 2.4rem);
+                font-size: clamp(1.8rem, 4.5vw, 3rem);
                 line-height: 1.15;
-                margin-bottom: 1.2rem;
+            }
+
+            .subpage-quartz {
+                opacity: 0.15;
+                transform: translateX(-50%) translateY(12vh) scale(0.45);
+            }
+
+            .manifesto-dark-box {
+                padding: 36px 24px;
+            }
+        }
+
+        @media (max-width: 768px), (max-height: 520px) {
+            .page-content-wrapper {
+                padding: 12vh 5% 5vh 5%;
+            }
+
+            .hero-title {
+                font-size: clamp(1.45rem, 5.5vw, 2.2rem);
+                line-height: 1.15;
+                margin-bottom: 0.8rem;
             }
 
             .quote-callout {
-                font-size: 0.95rem;
-                padding: 18px 16px;
-                margin: 1.5rem 0 2rem 0;
+                font-size: 0.88rem;
+                padding: 14px 14px;
+                margin: 1.2rem 0 1.5rem 0;
             }
 
             .services-list-container {
-                gap: 24px;
+                gap: 16px;
             }
 
             .service-row-card {
-                padding: 24px 20px;
+                padding: 20px 16px;
             }
 
             .service-title {
-                font-size: 1.35rem;
+                font-size: 1.2rem;
             }
 
             .feature-card {
-                flex: 0 0 280px;
-                min-width: 280px;
+                flex: 0 0 260px;
+                min-width: 260px;
             }
 
             .subpage-title-ul {
-                font-size: 0.72rem;
-                top: 4vh;
-                left: 5vw;
-                letter-spacing: 1px;
+                font-size: 0.7rem;
+                top: 3.5vh;
+                left: 4vw;
+                letter-spacing: 0.8px;
             }
         }
 
