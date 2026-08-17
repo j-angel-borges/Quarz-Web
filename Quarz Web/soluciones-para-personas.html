@@ -41,17 +41,12 @@
         body {
             width: 100%;
             min-height: 100vh;
-            background-color: #ffffff;
+            background-color: #08080a;
             margin: 0;
             padding: 0;
             font-family: var(--font-zentry-body);
-            color: #111111;
-            overflow-x: hidden;
-        }
-
-        body {
-            background-color: #08080a;
             color: #ffffff;
+            overflow-x: hidden;
             overflow-y: auto;
         }
 
@@ -109,97 +104,6 @@
             z-index: 950;
         }
 
-        /* Diana concéntrica con botón central "CLIC" */
-        .b2c-target-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 500;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
-        }
-
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 1px solid rgba(216, 210, 194, 0.4);
-            box-sizing: border-box;
-            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out, border-color 1s ease;
-            transform-origin: center;
-        }
-
-        .ring-1 {
-            width: clamp(340px, 38vw, 560px);
-            height: clamp(340px, 38vw, 560px);
-            border-color: rgba(229, 224, 212, 0.5);
-        }
-
-        .ring-2 {
-            width: clamp(270px, 30vw, 440px);
-            height: clamp(270px, 30vw, 440px);
-            border-color: rgba(216, 206, 185, 0.6);
-        }
-
-        .ring-3 {
-            width: clamp(200px, 22vw, 320px);
-            height: clamp(200px, 22vw, 320px);
-            border-color: rgba(200, 188, 162, 0.8);
-            border-width: 1.5px;
-        }
-
-        .clic-circle {
-            position: relative;
-            width: clamp(100px, 11vw, 160px);
-            height: clamp(100px, 11vw, 160px);
-            border-radius: 50%;
-            background-color: #e7e2d4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: clamp(0.75rem, 0.95vw, 0.95rem);
-            letter-spacing: 2px;
-            color: #2b2b2b;
-            z-index: 550;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            pointer-events: auto;
-            cursor: pointer;
-            transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.5s ease;
-        }
-
-        .clic-circle:hover {
-            transform: scale(1.05);
-            background-color: #dfd8c6;
-        }
-
-        body.dark-mode .ring {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        body.dark-mode .ring-1 {
-            transform: scale(2.2);
-        }
-
-        body.dark-mode .ring-2 {
-            transform: scale(2.7);
-        }
-
-        body.dark-mode .ring-3 {
-            transform: scale(3.2);
-        }
-
-        body.dark-mode .clic-circle {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.5);
-        }
-
         /* SVG Circuit Overlay */
         #circuit-svg-sub {
             position: fixed;
@@ -210,15 +114,15 @@
             z-index: 60;
         }
 
-        body.dark-mode .circuit-path {
+        .circuit-path {
             stroke: rgba(255, 255, 255, 0.3) !important;
         }
 
-        body.dark-mode .circuit-node {
+        .circuit-node {
             fill: #ffffff !important;
         }
 
-        /* Top Blur Overlay */
+        /* Top Blur Overlay (Fondo oscuro degradado) */
         .top-blur-overlay {
             position: fixed;
             top: 0;
@@ -227,14 +131,9 @@
             height: 8vh;
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.5) 70%, transparent 100%);
+            background: linear-gradient(to bottom, rgba(8, 8, 10, 0.95) 0%, rgba(8, 8, 10, 0.6) 70%, transparent 100%);
             z-index: 40;
             pointer-events: none;
-            transition: background 1s ease;
-        }
-
-        body.dark-mode .top-blur-overlay {
-            background: linear-gradient(to bottom, rgba(8, 8, 10, 0.95) 0%, rgba(8, 8, 10, 0.6) 70%, transparent 100%);
         }
 
         /* Canvas de Estrellas */
