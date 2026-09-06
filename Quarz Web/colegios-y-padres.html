@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUARZ — Soluciones para Personas</title>
+    <title>QUARZ — Colegios y Padres</title>
     <link rel="icon" type="image/png" href="media/logos/favicon.png">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="media/logos/favicon.png">
@@ -180,7 +180,7 @@
         /* Hero Header */
         .zentry-hero {
             text-align: center;
-            max-width: 960px;
+            max-width: 1180px;
             margin: 0 auto 60px auto;
         }
 
@@ -207,8 +207,87 @@
             font-weight: 500;
             line-height: 1.55;
             color: #e5e7eb;
-            max-width: 880px;
+            max-width: 960px;
             margin: 0 auto;
+        }
+
+        /* Recuadro de Video Showcase con Borde Morado y Bordes Redondeados */
+        .hero-video-box-wrapper {
+            width: 100%;
+            max-width: 1160px;
+            margin: 46px auto 30px auto;
+            position: relative;
+        }
+
+        .hero-video-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2000 / 800;
+            border-radius: 26px;
+            border: 2px solid #8B5CF6;
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.35), 0 25px 60px -15px rgba(0, 0, 0, 0.85);
+            overflow: hidden;
+            background: #0d0d12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-audio-toggle {
+            position: absolute;
+            bottom: 18px;
+            right: 20px;
+            background: rgba(10, 10, 14, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            border-radius: 999px;
+            padding: 8px 15px;
+            font-family: var(--font-zentry-body);
+            font-size: 0.82rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.25s ease;
+        }
+
+        .video-audio-toggle:hover {
+            background: rgba(139, 92, 246, 0.9);
+            border-color: #D6C8FA;
+            transform: scale(1.04);
+        }
+
+        .video-audio-toggle svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+        }
+
+        @media (max-width: 768px) {
+            .hero-video-box-wrapper {
+                margin: 32px auto 20px auto;
+            }
+            .hero-video-box {
+                border-radius: 18px;
+                border-width: 1.5px;
+            }
+            .video-audio-toggle {
+                bottom: 12px;
+                right: 12px;
+                padding: 6px 11px;
+                font-size: 0.75rem;
+            }
         }
 
         /* ========================================================
@@ -922,7 +1001,7 @@
     </header>
 
     <!-- Título Esquina Inferior Izquierda -->
-    <a href="index.html" class="subpage-title-ll" id="sub-title">SOLUCIONES PARA PERSONAS</a>
+    <a href="index.html" class="subpage-title-ll" id="sub-title">COLEGIOS Y PADRES</a>
 
     <div class="stage-subpage">
         <!-- Canvas de Estrellas -->
@@ -941,9 +1020,26 @@
                 Zentry<span class="gradient-text">OS</span>
             </h1>
             <p class="zentry-manifesto-quote">
-                El sistema educativo tradicional no ha cambiado en 200 años y los entornos digitales lo único que han
-                hecho es aprovecharse de la atención infantil.
+                Los entornos digitales en los que pasa más tiempo su hijo/a pueden influenciar tanto o más su manera de actuar y de pensar que el colegio al que asisten a diario, aprovechando un sistema educativo que no tiene las herramientas necesarias para combatir trastornos y problemáticas completamente nuevas...
             </p>
+
+            <!-- Recuadro de Video Showcase 2000x800 con Borde Morado -->
+            <div class="hero-video-box-wrapper">
+                <div class="hero-video-box">
+                    <video id="showcase-main-video" autoplay muted loop playsinline webkit-playsinline preload="auto">
+                        <source src="https://storage.googleapis.com/quarz-web-media/ZentryOS_Showcase_2000x800.mp4" type="video/mp4" />
+                    </video>
+                    <button class="video-audio-toggle" id="audio-toggle-btn" type="button" aria-label="Activar o desactivar sonido">
+                        <svg id="audio-icon-muted" viewBox="0 0 24 24">
+                            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27l4.73 4.73H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                        </svg>
+                        <svg id="audio-icon-unmuted" viewBox="0 0 24 24" style="display:none;">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                        <span id="audio-btn-label">Activar sonido</span>
+                    </button>
+                </div>
+            </div>
         </section>
 
         <!-- ========================================================
@@ -1649,6 +1745,29 @@
 
             new AppleStyleCarousel();
             new BenefitsVerticalCarousel();
+
+            // Control de Audio para el video showcase principal
+            const mainShowcaseVideo = document.getElementById('showcase-main-video');
+            const audioBtn = document.getElementById('audio-toggle-btn');
+            const iconMuted = document.getElementById('audio-icon-muted');
+            const iconUnmuted = document.getElementById('audio-icon-unmuted');
+            const btnLabel = document.getElementById('audio-btn-label');
+
+            if (mainShowcaseVideo && audioBtn) {
+                audioBtn.addEventListener('click', function () {
+                    if (mainShowcaseVideo.muted) {
+                        mainShowcaseVideo.muted = false;
+                        iconMuted.style.display = 'none';
+                        iconUnmuted.style.display = 'block';
+                        btnLabel.textContent = 'Silenciar';
+                    } else {
+                        mainShowcaseVideo.muted = true;
+                        iconMuted.style.display = 'block';
+                        iconUnmuted.style.display = 'none';
+                        btnLabel.textContent = 'Activar sonido';
+                    }
+                });
+            }
 
             gsap.from("#zentry-showcase", {
                 y: 30,
