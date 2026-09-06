@@ -7,8 +7,16 @@ const MIME = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf
   '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png', '.webp':'image/webp', '.mp4':'video/mp4', '.webm':'video/webm', '.svg':'image/svg+xml' };
 http.createServer((req, res) => {
   let urlPath = decodeURIComponent(req.url.split('?')[0]);
+  if (urlPath === '/b2c.html' || urlPath === '/b2c' || urlPath === '/soluciones-para-personas.html' || urlPath === '/soluciones-para-personas') {
+    res.writeHead(301, { 'Location': '/personas' });
+    res.end();
+    return;
+  }
   if (urlPath === '/') urlPath = '/index.html';
-  const filePath = path.join(ROOT, urlPath);
+  let filePath = path.join(ROOT, urlPath);
+  if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) {
+    filePath = filePath + '.html';
+  }
   if (!path.resolve(filePath).startsWith(path.resolve(ROOT))) { res.writeHead(403); res.end('Forbidden'); return; }
   fs.readFile(filePath, (err, data) => {
     if (err) { res.writeHead(404); res.end('Not found: ' + urlPath); return; }
